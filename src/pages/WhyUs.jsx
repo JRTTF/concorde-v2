@@ -207,7 +207,8 @@ const C = {
   bg:"#f5f6f8", bgWhite:"#ffffff", border:"#dde2ea", green:"#22c55e",
 };
 
-import { Link } from "react-router-dom";
+
+
 
 export default function WhyUs({ lang = "en" }) {
   const t = T[lang] || T.en;
