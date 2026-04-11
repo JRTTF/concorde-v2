@@ -408,9 +408,9 @@ export default function Home({ lang = "en" }) {
       {/* ── PHOTO ROW ── */}
       <section className="px" style={{ padding:"0 48px 90px", background:C.bg }}>
         <div style={{ maxWidth:1080, margin:"0 auto", display:"grid", gridTemplateColumns:"1fr 1fr 1fr", gap:2 }}>
-          <Img src="/images/factory.jpg" alt="Factory floor" ratio="65%"/>
-          <Img src="/images/qc.jpg" alt="Production" ratio="65%"/>
-          <Img src="/images/team.jpg" alt="Team" ratio="65%"/>
+          <Img src="/images/product-flatlay.jpg" alt="Precision metal parts" ratio="65%"/>
+          <Img src="/images/factory-cnc-row.jpg" alt="CNC machining" ratio="65%"/>
+          <Img src="/images/plastic-speaker-angle.jpg" alt="Plastic injection products" ratio="65%"/>
         </div>
       </section>
 

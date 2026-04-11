@@ -281,20 +281,6 @@ export default function WhyUs({ lang = "en" }) {
         </div>
       </section>
 
-      {/* LANGUAGES */}
-      <section className="px" style={{ padding:"0 48px 70px" }}>
-        <div style={{ maxWidth:1080, margin:"0 auto", background:C.bgWhite, border:`1px solid ${C.border}`, borderLeft:`4px solid ${C.navy}`, padding:"1.5rem 2rem" }}>
-          <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", flexWrap:"wrap", gap:16 }}>
-            <div>
-              <div style={{ fontFamily:"'Rajdhani',sans-serif", fontSize:14, fontWeight:700, color:C.text, marginBottom:4 }}>{t.langTitle}</div>
-              <p style={{ fontFamily:"'Barlow',sans-serif", fontSize:12, fontWeight:300, color:C.textMid }}>{t.langNote}</p>
-            </div>
-            <div style={{ display:"flex", flexWrap:"wrap", gap:6 }}>
-              {t.langs.map((l,i)=><span key={i} className="lang-pill">{l}</span>)}
-            </div>
-          </div>
-        </div>
-      </section>
 
       {/* EXPORT MARKETS */}
       <section className="px" style={{ padding:"70px 48px", background:C.navy }}>
@@ -333,12 +319,12 @@ export default function WhyUs({ lang = "en" }) {
       <section className="px" style={{ padding:"0 48px 70px", background:C.bgWhite }}>
         <div style={{ maxWidth:1080, margin:"0 auto" }}>
           <div style={{ position:"relative" }}>
-            <img src="/images/team.jpg" alt="Concorde Innovation team at factory" style={{ width:"100%", objectFit:"cover", display:"block", maxHeight:480 }}/>
+            <img src="/images/factory-injection.jpg" alt="Concorde Innovation injection molding facility" style={{ width:"100%", objectFit:"cover", display:"block", maxHeight:480 }}/>
             <div style={{ position:"absolute", bottom:0, left:0, right:0, background:"linear-gradient(transparent, rgba(27,45,79,.8))", padding:"40px 32px 24px" }}>
               <p style={{ fontFamily:"'Barlow',sans-serif", fontSize:13, fontWeight:300, color:"rgba(255,255,255,.8)" }}>
-                {lang==="en"?"Our team visiting partner factories in Guangdong — building relationships that ensure quality and reliability.":
-                 lang==="zhTW"?"我們的團隊到訪廣東合作工廠——建立確保品質及可靠性的合作關係。":
-                 "我们的团队到访广东合作工厂——建立确保品质及可靠性的合作关系。"}
+                {lang==="en"?"Our injection molding facility in Guangdong — multiple machines running precision plastic components.":
+                 lang==="zhTW"?"廣東注塑廠房——多台機器同步生產精密塑膠零件。":
+                 "广东注塑厂房——多台机器同步生产精密塑胶零件。"}
               </p>
             </div>
           </div>
