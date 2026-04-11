@@ -45,7 +45,6 @@ const T = {
       { q:"How fast can I get a quote?", a:"We typically respond within 48 hours with pricing from multiple factories." },
       { q:"What's the minimum order quantity?", a:"No fixed MOQ — we work with orders from 100 pcs prototypes to millions in mass production." },
       { q:"Do you sign NDAs?", a:"Yes, always. We sign an NDA before reviewing any drawings or product details." },
-      { q:"How do I pay?", a:"Payment is made to our Hong Kong company bank account in USD or HKD. No direct payment to China factories." },
     ],
   },
   zhTW: {
@@ -72,7 +71,7 @@ const T = {
     info: [
       { label:"WhatsApp", value:"+852 6633 6017", link:"https://wa.me/85266336017" },
       { label:"電子郵件", value:"info@concordeinnovation.com", link:"mailto:info@concordeinnovation.com" },
-      { label:"總部", value:"香港屯門 🇭🇰", link:null },
+      { label:"總部", value:"香港新界荃灣沙咀道362號全發商業大廈8樓820室 🇭🇰", link:null },
       { label:"採購地區", value:"廣東珠三角", link:null },
     ],
     hoursTitle: "辦公時間",
@@ -86,7 +85,6 @@ const T = {
       { q:"多快能收到報價？", a:"我們通常在48小時內提供多家工廠的競爭性報價。" },
       { q:"最低起訂量是多少？", a:"沒有固定MOQ，我們承接100件打樣到百萬件量產的訂單。" },
       { q:"你們簽保密協議嗎？", a:"是的，我們在審閱任何圖紙或產品資料前均會先簽署保密協議。" },
-      { q:"如何付款？", a:"付款至我們的香港公司銀行賬戶，以美元或港幣結算，無需直接向中國工廠付款。" },
     ],
   },
   zhCN: {
@@ -113,7 +111,7 @@ const T = {
     info: [
       { label:"WhatsApp", value:"+852 6633 6017", link:"https://wa.me/85266336017" },
       { label:"电子邮件", value:"info@concordeinnovation.com", link:"mailto:info@concordeinnovation.com" },
-      { label:"总部", value:"香港屯门 🇭🇰", link:null },
+      { label:"总部", value:"香港新界荃湾沙咀道362号全发商业大厦8楼820室 🇭🇰", link:null },
       { label:"采购地区", value:"广东珠三角", link:null },
     ],
     hoursTitle: "办公时间",
@@ -127,7 +125,6 @@ const T = {
       { q:"多快能收到报价？", a:"我们通常在48小时内提供多家工厂的竞争性报价。" },
       { q:"最低起订量是多少？", a:"没有固定MOQ，我们承接100件打样到百万件量产的订单。" },
       { q:"你们签保密协议吗？", a:"是的，我们在审阅任何图纸或产品资料前均会先签署保密协议。" },
-      { q:"如何付款？", a:"付款至我们的香港公司银行账户，以美元或港币结算，无需直接向中国工厂付款。" },
     ],
   },
 };
