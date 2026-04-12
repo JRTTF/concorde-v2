@@ -21,6 +21,7 @@ const NAV = {
 
 function Navbar({ lang, setLang }) {
   const [scrolled, setScrolled] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
   const location = useLocation();
   const n = NAV[lang];
 
@@ -41,7 +42,18 @@ function Navbar({ lang, setLang }) {
         .lang-pill:hover,.lang-pill.on{border-color:${C.navy};color:${C.navy};background:${C.navyFaint}}
         .btn-cta{display:inline-flex;align-items:center;background:${C.navy};color:#fff;font-family:'Rajdhani',sans-serif;font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;padding:9px 18px;border:none;cursor:pointer;transition:background .2s;text-decoration:none;white-space:nowrap}
         .btn-cta:hover{background:${C.navyDark}}
+        .hamburger{display:none;flex-direction:column;justify-content:center;gap:5px;background:none;border:none;cursor:pointer;padding:6px;margin-left:auto}
+        .hamburger span{display:block;width:22px;height:2px;background:${C.navy};border-radius:1px;transition:all .2s}
+        .mobile-menu{display:none;position:fixed;top:66px;left:0;right:0;z-index:199;background:${C.navy};padding:12px 0;box-shadow:0 8px 24px rgba(0,0,0,.2)}
+        .mobile-menu.open{display:block}
+        .mobile-menu-lnk{display:block;font-family:'Rajdhani',sans-serif;font-size:15px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.8);text-decoration:none;padding:14px 28px;border-bottom:1px solid rgba(255,255,255,.07);transition:background .15s,color .15s}
+        .mobile-menu-lnk:hover,.mobile-menu-lnk.active{background:rgba(255,255,255,.07);color:#fff}
+        .nav-desktop-links{display:flex;align-items:center;gap:20;flex-wrap:nowrap}
         body{margin:0;padding:0}
+        @media(max-width:768px){
+          .nav-desktop-links{display:none!important}
+          .hamburger{display:flex!important}
+        }
       `}</style>
       <nav style={{
         position:"fixed",top:0,left:0,right:0,zIndex:200,height:66,
@@ -59,7 +71,7 @@ function Navbar({ lang, setLang }) {
           </div>
         </Link>
 
-        <div style={{ display:"flex",alignItems:"center",gap:20,flexWrap:"nowrap" }}>
+        <div className="nav-desktop-links" style={{ display:"flex",alignItems:"center",gap:20,flexWrap:"nowrap" }}>
           {n.links.map((l,i)=>(
             <Link key={i} to={l.p} className={`nav-lnk ${location.pathname===l.p?"active":""}`}>{l.l}</Link>
           ))}
@@ -70,16 +82,39 @@ function Navbar({ lang, setLang }) {
           </div>
           <Link to="/contact" className="btn-cta">{n.cta}</Link>
         </div>
+
+        {/* Mobile right: lang pills + hamburger */}
+        <div style={{ display:"flex",alignItems:"center",gap:6,marginLeft:"auto" }} className="mobile-right">
+          <style>{`@media(min-width:769px){.mobile-right{display:none!important}}`}</style>
+          <div style={{ display:"flex",gap:3 }}>
+            {[{k:"en",l:"EN"},{k:"zhTW",l:"繁"},{k:"zhCN",l:"简"}].map(o=>(
+              <button key={o.k} className={`lang-pill ${lang===o.k?"on":""}`} onClick={()=>setLang(o.k)}>{o.l}</button>
+            ))}
+          </div>
+          <button className="hamburger" onClick={()=>setMenuOpen(v=>!v)} aria-label="Toggle menu">
+            <span style={{ transform:menuOpen?"rotate(45deg) translate(5px,5px)":"none" }}/>
+            <span style={{ opacity:menuOpen?0:1 }}/>
+            <span style={{ transform:menuOpen?"rotate(-45deg) translate(5px,-5px)":"none" }}/>
+          </button>
+        </div>
       </nav>
+
+      {/* Mobile dropdown menu */}
+      <div className={`mobile-menu ${menuOpen?"open":""}`}>
+        {n.links.map((l,i)=>(
+          <Link key={i} to={l.p} className={`mobile-menu-lnk ${location.pathname===l.p?"active":""}`} onClick={()=>setMenuOpen(false)}>{l.l}</Link>
+        ))}
+        <Link to="/contact" onClick={()=>setMenuOpen(false)} style={{ display:"block",margin:"12px 20px 4px",background:"#fff",color:C.navy,fontFamily:"'Rajdhani',sans-serif",fontSize:13,fontWeight:700,letterSpacing:".1em",textTransform:"uppercase",padding:"13px 20px",textDecoration:"none",textAlign:"center" }}>{n.cta}</Link>
+      </div>
     </>
   );
 }
 
 function Footer({ lang }) {
   const tagline = {
-    en:"Hong Kong manufacturer of precision metal and plastic components. ISO 9001:2015 certified. Exporting to Europe, Americas and Asia for 20+ years.",
-    zhTW:"香港精密金屬及塑膠零件製造商。ISO 9001:2015認證。出口歐洲、美洲及亞洲逾20年。",
-    zhCN:"香港精密金属及塑胶零件制造商。ISO 9001:2015认证。出口欧洲、美洲及亚洲逾20年。",
+    en:"ISO 9001:2015 certified precision manufacturer — plastic injection, cold forging and turning parts. Exporting to Europe, Americas and Asia for 20+ years.",
+    zhTW:"ISO 9001:2015認證精密製造商——注塑件、冷鍛件及車削零件。出口歐洲、美洲及亞洲逾20年。",
+    zhCN:"ISO 9001:2015认证精密制造商——注塑件、冷锻件及车削零件。出口欧洲、美洲及亚洲逾20年。",
   };
   return (
     <footer style={{ background:"#111e35", padding:"44px 40px" }}>

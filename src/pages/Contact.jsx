@@ -3,8 +3,8 @@ import { useState } from "react";
 const T = {
   en: {
     badge: "Get In Touch",
-    title: "Start Your Sourcing Project",
-    sub: "Tell us what you need. We'll respond within 48 hours with honest advice and competitive pricing — no obligation, no sales pitch.",
+    title: "Start Your Project",
+    sub: "Tell us what you need. We'll respond within 48 hours with a competitive quote — no obligation.",
     waBtn: "Chat on WhatsApp Now",
     waNote: "Fastest response — typically reply within 2 hours during HK business hours",
     orDivider: "or send us a detailed enquiry",
@@ -31,8 +31,8 @@ const T = {
     info: [
       { label:"WhatsApp", value:"+852 6633 6017", link:"https://wa.me/85266336017" },
       { label:"Email", value:"info@concordeinnovation.com", link:"mailto:info@concordeinnovation.com" },
-      { label:"HQ", value:"Tuen Mun, Hong Kong 🇭🇰", link:null },
-      { label:"Sourcing Region", value:"Pearl River Delta, Guangdong", link:null },
+      { label:"HQ", value:"Room 820, 8/F, Fortune Commercial Building, 362 Sha Tsui Road, Tsuen Wan, N.T., Hong Kong 🇭🇰", link:null },
+      { label:"Production Address", value:"NO.1 Gangban Road, Zhutangxiawei Village, Fenggang Town, Dongguan, Guangdong 🇨🇳", link:null },
     ],
     hoursTitle: "Business Hours",
     hours: [
@@ -72,7 +72,7 @@ const T = {
       { label:"WhatsApp", value:"+852 6633 6017", link:"https://wa.me/85266336017" },
       { label:"電子郵件", value:"info@concordeinnovation.com", link:"mailto:info@concordeinnovation.com" },
       { label:"總部", value:"香港新界荃灣沙咀道362號全發商業大廈8樓820室 🇭🇰", link:null },
-      { label:"採購地區", value:"廣東珠三角", link:null },
+      { label:"廠房地址", value:"廣東省東莞市鳳崗鎮竹塘小圍村崗板路1號 🇨🇳", link:null },
     ],
     hoursTitle: "辦公時間",
     hours: [
@@ -112,7 +112,7 @@ const T = {
       { label:"WhatsApp", value:"+852 6633 6017", link:"https://wa.me/85266336017" },
       { label:"电子邮件", value:"info@concordeinnovation.com", link:"mailto:info@concordeinnovation.com" },
       { label:"总部", value:"香港新界荃湾沙咀道362号全发商业大厦8楼820室 🇭🇰", link:null },
-      { label:"采购地区", value:"广东珠三角", link:null },
+      { label:"厂房地址", value:"广东省东莞市凤岗镇竹塘小围村冈板路1号 🇨🇳", link:null },
     ],
     hoursTitle: "办公时间",
     hours: [
