@@ -63,8 +63,8 @@ function Navbar({ lang, setLang }) {
         borderBottom:scrolled?`1px solid ${C.border}`:"1px solid transparent",
         transition:"all .35s",
       }}>
-        <Link to="/" style={{ display:"flex",alignItems:"center",gap:12,textDecoration:"none",flexShrink:0 }}>
-          <div style={{ width:40,height:40,background:`linear-gradient(135deg,${C.silver},${C.silverDark})`,display:"flex",alignItems:"center",justifyContent:"center",fontSize:13,fontWeight:700,color:"#fff",clipPath:"polygon(5px 0%,100% 0%,calc(100% - 5px) 100%,0% 100%)",fontFamily:"'Rajdhani',sans-serif" }}>CI</div>
+        <Link to="/" style={{ display:"flex",alignItems:"center",gap:10,textDecoration:"none",flexShrink:0 }}>
+          <img src="/images/logo.png" alt="Concorde Innovation" style={{ height:44,width:"auto",objectFit:"contain",display:"block" }}/>
           <div>
             <div style={{ fontFamily:"'Rajdhani',sans-serif",fontSize:13,fontWeight:700,letterSpacing:".15em",color:C.navy }}>CONCORDE</div>
             <div style={{ fontFamily:"'Rajdhani',sans-serif",fontSize:8,letterSpacing:".22em",color:C.silver,marginTop:1 }}>INNOVATION LIMITED</div>
@@ -121,7 +121,7 @@ function Footer({ lang }) {
       <div style={{ maxWidth:1080, margin:"0 auto" }}>
         <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", flexWrap:"wrap", gap:20, marginBottom:28, paddingBottom:28, borderBottom:"1px solid rgba(255,255,255,.07)" }}>
           <div style={{ display:"flex", alignItems:"center", gap:12 }}>
-            <div style={{ width:36,height:36,background:`linear-gradient(135deg,${C.silver},${C.silverDark})`,display:"flex",alignItems:"center",justifyContent:"center",fontSize:12,fontWeight:700,color:"#fff",clipPath:"polygon(5px 0%,100% 0%,calc(100% - 5px) 100%,0% 100%)",fontFamily:"'Rajdhani',sans-serif" }}>CI</div>
+            <img src="/images/logo.png" alt="Concorde Innovation" style={{ height:36,width:"auto",objectFit:"contain",display:"block",filter:"brightness(0) invert(1)",opacity:.9 }}/>
             <div>
               <div style={{ fontFamily:"'Rajdhani',sans-serif", fontSize:12, fontWeight:700, letterSpacing:".13em", color:"#e8ecf2" }}>CONCORDE INNOVATION LIMITED</div>
               <div style={{ fontFamily:"'Rajdhani',sans-serif", fontSize:8, letterSpacing:".18em", color:"rgba(255,255,255,.22)", marginTop:1 }}>協和精密有限公司 · 协和精密有限公司</div>
