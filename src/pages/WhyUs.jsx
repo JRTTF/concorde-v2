@@ -6,20 +6,28 @@ const T = {
     title: "A Reliable Manufacturing Partner Since 2000",
     sub: "Concorde Innovation delivers seamless solutions from product design to the production of premium-quality components — trusted by clients across Europe, the Americas and Asia.",
 
-    intro: "Concorde Innovation is a trusted manufacturer with over 20 years of expertise, delivering seamless solutions from product design to the production of premium-quality components.",
-    mission: "Our mission is to excel as a leading component supplier for complete machine manufacturers. Leveraging our profound experience in mold design, plastic injection molding, cold forging, stamping and precision turning, we empower clients to optimize product design — boosting its rationality, production efficiency, and service life simultaneously.",
+    intro: "Concorde Innovation has been in business for over twenty years, catering to the metal and plastic manufacturing industry. With our own factory in Guangdong, China, we manufacture metal parts, sheet metal, stainless steel, plastic-metal parts and more. Our products have a wide range and cater to a wide spectrum of customer needs.",
+    mission: "Our mission is to excel as a leading component supplier for complete machine manufacturers. Leveraging our profound experience in mold design, plastic injection molding, cold forging, stamping and precision machining, we empower clients to optimize product design — boosting its rationality, production efficiency, and service life simultaneously.",
     philosophy: "Guided by the philosophy of building long-term, mutually beneficial partnerships, Concorde Innovation always rises to challenges with full accountability. This commitment has won us consistent recognition and trust from our customers across five continents.",
     inviteTitle: "We warmly invite you to partner with Concorde Innovation.",
     inviteSub: "Choosing us will prove to be one of your most rewarding business decisions.",
 
-    capsTitle: "Our Capabilities",
+    servicesTitle: "Our Services",
+    services: [
+      { icon:"🏭", title:"In-House One-Stop Solution", desc:"From tooling and production through surface treatment, assembly and shipping — all handled under one roof in our Guangdong facility." },
+      { icon:"⚙️", title:"Engineering Expertise", desc:"Our in-house engineering team provides DFM analysis, mold design and technical feedback to optimise your product before production begins." },
+      { icon:"💰", title:"High Quality Production with Competitive Pricing", desc:"ISO 9001 certified quality management at every stage. Direct factory pricing — no middlemen, no hidden markup, MOQ flexible." },
+      { icon:"💡", title:"Value-Added & Innovative Products", desc:"We go beyond standard manufacturing — offering innovative solutions, design improvements and value-added services tailored to each client." },
+    ],
+
+    capsTitle: "Production Capabilities",
     caps: [
-      { icon:"⚙️", label:"Mold Design & Tooling" },
+      { icon:"🔧", label:"Assembly" },
+      { icon:"🪛", label:"Metal & Plastic-Metal Parts" },
+      { icon:"📐", label:"Stamping / Sheet Metal / Stainless Steel" },
+      { icon:"⚙️", label:"Machining — Auto & CNC Lathe" },
       { icon:"🏭", label:"Plastic Injection Molding" },
-      { icon:"🔩", label:"Cold Forging" },
-      { icon:"🔧", label:"Precision Turning" },
-      { icon:"📐", label:"Metal Stamping" },
-      { icon:"✅", label:"ISO 9001 Certified" },
+      { icon:"🔩", label:"Metal Injection Molding (MIM)" },
     ],
 
     statsTitle: "By The Numbers",
@@ -55,20 +63,28 @@ const T = {
     title: "自2000年起，值得信賴的製造夥伴",
     sub: "協和精密提供從產品設計到優質零件生產的一站式解決方案——深受歐洲、美洲及亞洲客戶信賴。",
 
-    intro: "協和精密是一家擁有逾20年專業經驗的可靠製造商，提供從產品設計到優質零件生產的一站式解決方案。",
-    mission: "我們的使命是成為整機製造商的領先零件供應商。憑藉我們在模具設計、塑膠注塑、冷鍛、衝壓及精密車削方面的深厚經驗，我們幫助客戶優化產品設計——同時提升其合理性、生產效率及使用壽命。",
+    intro: "協和精密在金屬及塑膠製造業深耕逾二十年。我們在廣東設有自己的工廠，生產金屬零件、鈑金、不鏽鋼件、塑金件等各類產品，品種齊全，能滿足各行各業的廣泛需求。",
+    mission: "我們的使命是成為整機製造商的領先零件供應商。憑藉我們在模具設計、塑膠注塑、冷鍛、衝壓及精密加工方面的深厚經驗，我們幫助客戶優化產品設計——同時提升其合理性、生產效率及使用壽命。",
     philosophy: "秉持建立長期互利合作關係的理念，協和精密始終以高度責任感應對每一項挑戰。這一承諾為我們贏得了來自五大洲客戶的持續認可與信賴。",
     inviteTitle: "誠摯邀請您與協和精密建立合作。",
     inviteSub: "選擇我們，將是您最明智的商業決策之一。",
 
-    capsTitle: "我們的能力",
+    servicesTitle: "我們的服務",
+    services: [
+      { icon:"🏭", title:"廠內一站式解決方案", desc:"從開模、生產、表面處理到組裝及出貨——全部在廣東廠房一條龍完成。" },
+      { icon:"⚙️", title:"工程技術支援", desc:"內部工程團隊提供DFM分析、模具設計及技術反饋，在生產前優化您的產品設計。" },
+      { icon:"💰", title:"高品質生產，具競爭力定價", desc:"ISO 9001認證的全程品質管控。工廠直供定價，無中間商，無隱藏費用，起訂量靈活。" },
+      { icon:"💡", title:"增值及創新產品與服務", desc:"超越標準製造——為每位客戶提供創新解決方案、設計改善及增值服務。" },
+    ],
+
+    capsTitle: "生產能力",
     caps: [
-      { icon:"⚙️", label:"模具設計及製造" },
+      { icon:"🔧", label:"組裝" },
+      { icon:"🪛", label:"金屬及塑金零件" },
+      { icon:"📐", label:"衝壓件 / 鈑金 / 不鏽鋼" },
+      { icon:"⚙️", label:"加工件——自動車床及CNC" },
       { icon:"🏭", label:"塑膠注塑成型" },
-      { icon:"🔩", label:"冷鍛" },
-      { icon:"🔧", label:"精密車削" },
-      { icon:"📐", label:"金屬衝壓" },
-      { icon:"✅", label:"ISO 9001 認證" },
+      { icon:"🔩", label:"金屬注射成型（MIM）" },
     ],
 
     statsTitle: "數字說明一切",
@@ -104,20 +120,28 @@ const T = {
     title: "自2000年起，值得信赖的制造伙伴",
     sub: "协和精密提供从产品设计到优质零件生产的一站式解决方案——深受欧洲、美洲及亚洲客户信赖。",
 
-    intro: "协和精密是一家拥有逾20年专业经验的可靠制造商，提供从产品设计到优质零件生产的一站式解决方案。",
-    mission: "我们的使命是成为整机制造商的领先零件供应商。凭借我们在模具设计、塑胶注塑、冷锻、冲压及精密车削方面的深厚经验，我们帮助客户优化产品设计——同时提升其合理性、生产效率及使用寿命。",
+    intro: "协和精密在金属及塑胶制造业深耕逾二十年。我们在广东设有自己的工厂，生产金属零件、钣金、不锈钢件、塑金件等各类产品，品种齐全，能满足各行各业的广泛需求。",
+    mission: "我们的使命是成为整机制造商的领先零件供应商。凭借我们在模具设计、塑胶注塑、冷锻、冲压及精密加工方面的深厚经验，我们帮助客户优化产品设计——同时提升其合理性、生产效率及使用寿命。",
     philosophy: "秉持建立长期互利合作关系的理念，协和精密始终以高度责任感应对每一项挑战。这一承诺为我们赢得了来自五大洲客户的持续认可与信赖。",
     inviteTitle: "诚挚邀请您与协和精密建立合作。",
     inviteSub: "选择我们，将是您最明智的商业决策之一。",
 
-    capsTitle: "我们的能力",
+    servicesTitle: "我们的服务",
+    services: [
+      { icon:"🏭", title:"厂内一站式解决方案", desc:"从开模、生产、表面处理到组装及出货——全部在广东厂房一条龙完成。" },
+      { icon:"⚙️", title:"工程技术支持", desc:"内部工程团队提供DFM分析、模具设计及技术反馈，在生产前优化您的产品设计。" },
+      { icon:"💰", title:"高品质生产，具竞争力定价", desc:"ISO 9001认证的全程品质管控。工厂直供定价，无中间商，无隐藏费用，起订量灵活。" },
+      { icon:"💡", title:"增值及创新产品与服务", desc:"超越标准制造——为每位客户提供创新解决方案、设计改善及增值服务。" },
+    ],
+
+    capsTitle: "生产能力",
     caps: [
-      { icon:"⚙️", label:"模具设计及制造" },
+      { icon:"🔧", label:"组装" },
+      { icon:"🪛", label:"金属及塑金零件" },
+      { icon:"📐", label:"冲压件 / 钣金 / 不锈钢" },
+      { icon:"⚙️", label:"加工件——自动车床及CNC" },
       { icon:"🏭", label:"塑胶注塑成型" },
-      { icon:"🔩", label:"冷锻" },
-      { icon:"🔧", label:"精密车削" },
-      { icon:"📐", label:"金属冲压" },
-      { icon:"✅", label:"ISO 9001 认证" },
+      { icon:"🔩", label:"金属注射成型（MIM）" },
     ],
 
     statsTitle: "数字说明一切",
@@ -231,6 +255,22 @@ export default function WhyUs({ lang = "en" }) {
                  "广东制造厂房——从模具到成品的一条龙生产。"}
               </p>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* SERVICES — 4 cards */}
+      <section className="px" style={{ padding:"0 48px 70px" }}>
+        <div style={{ maxWidth:1080, margin:"0 auto" }}>
+          <div className="eyebrow-light" style={{ marginBottom:28 }}>{t.servicesTitle}</div>
+          <div className="four-col" style={{ display:"grid", gridTemplateColumns:"repeat(4,1fr)", gap:2 }}>
+            {t.services.map((s,i)=>(
+              <div key={i} style={{ background:C.bgWhite, border:`1px solid ${C.border}`, borderTop:`3px solid ${C.navy}`, padding:"1.5rem" }}>
+                <div style={{ fontSize:28, marginBottom:12 }}>{s.icon}</div>
+                <h3 style={{ fontFamily:"'Rajdhani',sans-serif", fontSize:14, fontWeight:700, color:C.text, letterSpacing:".03em", marginBottom:10, lineHeight:1.35 }}>{s.title}</h3>
+                <p style={{ fontFamily:"'Barlow',sans-serif", fontSize:12, fontWeight:300, color:C.textMid, lineHeight:1.8 }}>{s.desc}</p>
+              </div>
+            ))}
           </div>
         </div>
       </section>
