@@ -121,7 +121,7 @@ function Footer({ lang }) {
       <div style={{ maxWidth:1080, margin:"0 auto" }}>
         <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", flexWrap:"wrap", gap:20, marginBottom:28, paddingBottom:28, borderBottom:"1px solid rgba(255,255,255,.07)" }}>
           <div style={{ display:"flex", alignItems:"center", gap:12 }}>
-            <img src="/images/logo.png" alt="Concorde Innovation" style={{ height:36,width:"auto",objectFit:"contain",display:"block",filter:"brightness(0) invert(1)",opacity:.9 }}/>
+            <img src="/images/logo.png" alt="Concorde Innovation" style={{ height:40,width:"auto",objectFit:"contain",display:"block" }}/>
             <div>
               <div style={{ fontFamily:"'Rajdhani',sans-serif", fontSize:12, fontWeight:700, letterSpacing:".13em", color:"#e8ecf2" }}>CONCORDE INNOVATION LIMITED</div>
               <div style={{ fontFamily:"'Rajdhani',sans-serif", fontSize:8, letterSpacing:".18em", color:"rgba(255,255,255,.22)", marginTop:1 }}>協和精密有限公司 · 协和精密有限公司</div>
