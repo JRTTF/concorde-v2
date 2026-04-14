@@ -142,10 +142,78 @@ function Footer({ lang }) {
   );
 }
 
+function SplashScreen({ onDone }) {
+  const [phase, setPhase] = useState("in"); // "in" | "hold" | "out"
+
+  useEffect(() => {
+    const t1 = setTimeout(() => setPhase("hold"), 600);
+    const t2 = setTimeout(() => setPhase("out"), 2800);
+    const t3 = setTimeout(() => onDone(), 3500);
+    return () => { clearTimeout(t1); clearTimeout(t2); clearTimeout(t3); };
+  }, []);
+
+  return (
+    <div style={{
+      position:"fixed", inset:0, zIndex:9999,
+      background:"linear-gradient(145deg,#e8edf5 0%,#f0f2f7 50%,#dde4f0 100%)",
+      display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center",
+      opacity: phase==="out" ? 0 : 1,
+      transition: phase==="out" ? "opacity .7s ease" : phase==="in" ? "opacity .6s ease" : "none",
+    }}>
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;600;700&family=Barlow:wght@300;400&display=swap');
+        @keyframes splashLogoIn{from{opacity:0;transform:scale(.82) translateY(18px)}to{opacity:1;transform:scale(1) translateY(0)}}
+        @keyframes splashTextIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+        @keyframes splashSpin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+        .splash-logo{animation:splashLogoIn .8s cubic-bezier(.16,1,.3,1) .2s both}
+        .splash-title{animation:splashTextIn .7s cubic-bezier(.16,1,.3,1) .55s both}
+        .splash-sub{animation:splashTextIn .7s cubic-bezier(.16,1,.3,1) .75s both}
+        .splash-desc{animation:splashTextIn .7s cubic-bezier(.16,1,.3,1) .9s both}
+        .splash-gear{animation:splashTextIn .5s ease 1.1s both}
+        .splash-gear svg{animation:splashSpin 3s linear infinite}
+      `}</style>
+
+      <p className="splash-title" style={{
+        fontFamily:"'Rajdhani',sans-serif", fontSize:"clamp(18px,4vw,32px)", fontWeight:700,
+        letterSpacing:".28em", color:"#1B2D4F", textTransform:"uppercase", marginBottom:32,
+      }}>CONCORDE INNOVATION LIMITED</p>
+
+      <div className="splash-logo">
+        <img src="/images/logo.png" alt="Concorde Innovation" style={{ width:"clamp(100px,16vw,160px)", height:"auto" }}/>
+      </div>
+
+      <p className="splash-sub" style={{
+        fontFamily:"'Rajdhani',sans-serif", fontSize:"clamp(16px,3vw,26px)", fontWeight:700,
+        letterSpacing:".18em", color:"#1B2D4F", textTransform:"uppercase", marginTop:28, marginBottom:10,
+      }}>CONCORDE INNOVATION LIMITED</p>
+
+      <p className="splash-sub" style={{
+        fontFamily:"'Barlow',sans-serif", fontSize:"clamp(12px,1.8vw,16px)", fontWeight:400,
+        color:"#4a5568", letterSpacing:".05em", marginBottom:14,
+      }}>Built on Trust. Delivered with Precision.</p>
+
+      <p className="splash-desc" style={{
+        fontFamily:"'Barlow',sans-serif", fontSize:"clamp(11px,1.3vw,13px)", fontWeight:300,
+        color:"#6b7a8d", lineHeight:1.7, textAlign:"center", maxWidth:520, padding:"0 20px",
+      }}>
+        Concorde Innovation is a Hong Kong-based manufacturer with our own production facilities in Dongguan, Guangdong — delivering ISO 9001:2015 certified precision parts directly to global clients with transparent pricing and full quality control.
+      </p>
+
+      <div className="splash-gear" style={{ marginTop:24 }}>
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#9aa8b8" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round">
+          <circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+        </svg>
+      </div>
+    </div>
+  );
+}
+
 export default function App() {
   const [lang, setLang] = useState("en");
+  const [showSplash, setShowSplash] = useState(true);
   return (
     <>
+      {showSplash && <SplashScreen onDone={() => setShowSplash(false)}/>}
       <Navbar lang={lang} setLang={setLang}/>
       <div style={{ paddingTop:66 }}>
         <Routes>

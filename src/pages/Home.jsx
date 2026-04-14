@@ -203,8 +203,18 @@ function Img({ src, alt, ratio="60%", style={} }) {
   );
 }
 
+const HERO_IMAGES = [
+  "/images/factory-injection.jpg",
+  "/images/factory-machines-cnc.jpg",
+  "/images/factory-machines-toolroom.jpg",
+  "/images/factory-machines-edm.png",
+  "/images/factory-gate.jpg",
+];
+
 export default function Home({ lang = "en" }) {
   const [scrolled, setScrolled] = useState(false);
+  const [heroIdx, setHeroIdx] = useState(0);
+  const [heroFade, setHeroFade] = useState(true);
   const t = T[lang] || T.en;
 
   useEffect(() => {
@@ -213,12 +223,24 @@ export default function Home({ lang = "en" }) {
     return () => window.removeEventListener("scroll", fn);
   }, []);
 
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setHeroFade(false);
+      setTimeout(() => {
+        setHeroIdx(i => (i + 1) % HERO_IMAGES.length);
+        setHeroFade(true);
+      }, 400);
+    }, 4000);
+    return () => clearInterval(timer);
+  }, []);
+
   return (
     <div style={{ fontFamily:"'Rajdhani','Barlow',sans-serif", background:C.bg, color:C.text }}>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Barlow:wght@300;400;500&display=swap');
         *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
         @keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+        .hero-dot-btn{border:none;cursor:pointer;padding:0;transition:all .3s}
         @keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
         .fu{animation:fadeUp .75s cubic-bezier(.16,1,.3,1) both}
         .d1{animation-delay:.06s}.d2{animation-delay:.18s}.d3{animation-delay:.30s}.d4{animation-delay:.44s}
@@ -267,7 +289,22 @@ export default function Home({ lang = "en" }) {
         </div>
 
         <div className="hero-img" style={{ position:"relative", zIndex:1 }}>
-          <Img src="/images/factory-injection.jpg" alt="Precision parts" ratio="68%"/>
+          <div style={{ position:"relative", width:"100%", paddingBottom:"68%", overflow:"hidden", background:C.bgPanel }}>
+            {HERO_IMAGES.map((src, i) => (
+              <img key={src} src={src} alt="Factory" style={{
+                position:"absolute", inset:0, width:"100%", height:"100%", objectFit:"cover",
+                opacity: i === heroIdx ? (heroFade ? 1 : 0) : 0,
+                transition: "opacity 0.6s ease",
+              }}/>
+            ))}
+            {/* dot indicators */}
+            <div style={{ position:"absolute", bottom:10, right:12, display:"flex", gap:5, zIndex:2 }}>
+              {HERO_IMAGES.map((_,i) => (
+                <button key={i} onClick={() => { setHeroFade(false); setTimeout(() => { setHeroIdx(i); setHeroFade(true); }, 200); }}
+                  style={{ width: i===heroIdx ? 18 : 6, height:6, borderRadius:3, background: i===heroIdx ? "#fff" : "rgba(255,255,255,0.4)", border:"none", cursor:"pointer", padding:0, transition:"all .3s" }}/>
+              ))}
+            </div>
+          </div>
           <div style={{ position:"absolute", bottom:-18, left:-18, background:C.navy, padding:"14px 20px", boxShadow:`0 8px 28px rgba(27,45,79,.28)` }}>
             <div style={{ fontFamily:"'Rajdhani',sans-serif", fontSize:9, fontWeight:600, letterSpacing:".18em", color:C.silver, textTransform:"uppercase", marginBottom:2 }}>Headquarters</div>
             <div style={{ fontFamily:"'Rajdhani',sans-serif", fontSize:15, fontWeight:700, color:"#fff" }}>Hong Kong 🇭🇰</div>
