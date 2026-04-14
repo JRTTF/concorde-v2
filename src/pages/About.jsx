@@ -172,18 +172,29 @@ export default function About({ lang = "en" }) {
               </div>
             </div>
             <div>
-              <div style={{ position:"relative" }}>
-                <img src="/images/factory-gate.jpg" alt="Concorde Innovation factory" style={{ width:"100%", objectFit:"cover", display:"block" }}
-                  onError={e => { e.target.style.display="none"; e.target.nextSibling.style.display="flex"; }}
-                />
-                <div style={{ display:"none", background:C.bgPanel, border:`1.5px dashed ${C.border}`, height:300, alignItems:"center", justifyContent:"center", flexDirection:"column", gap:8 }}>
-                  <span style={{ fontSize:32 }}>📸</span>
-                  <span style={{ fontFamily:"'Rajdhani',sans-serif", fontSize:11, color:C.silver, letterSpacing:".14em", textTransform:"uppercase" }}>Team Photo</span>
+              {/* Brand identity card */}
+              <div style={{
+                background:"linear-gradient(145deg,#e8edf5 0%,#f0f2f7 55%,#dde4f0 100%)",
+                border:`1px solid ${C.border}`,
+                padding:"40px 32px",
+                display:"flex", flexDirection:"column", alignItems:"center", textAlign:"center", gap:18,
+              }}>
+                <p style={{ fontFamily:"'Rajdhani',sans-serif", fontSize:11, fontWeight:700, letterSpacing:".26em", color:C.navy, textTransform:"uppercase", margin:0 }}>CONCORDE INNOVATION LIMITED</p>
+                <img src="/images/logo.png" alt="Concorde Innovation" style={{ width:120, height:"auto" }}/>
+                <div>
+                  <p style={{ fontFamily:"'Rajdhani',sans-serif", fontSize:20, fontWeight:700, letterSpacing:".14em", color:C.navy, textTransform:"uppercase", margin:"0 0 6px 0" }}>CONCORDE INNOVATION LIMITED</p>
+                  <p style={{ fontFamily:"'Barlow',sans-serif", fontSize:14, fontWeight:400, color:C.textMid, margin:"0 0 14px 0" }}>Built on Trust. Delivered with Precision.</p>
+                  <p style={{ fontFamily:"'Barlow',sans-serif", fontSize:12, fontWeight:300, color:C.textLight, lineHeight:1.75, margin:0, maxWidth:320 }}>
+                    Hong Kong-based manufacturer with own production facilities in Dongguan — delivering ISO 9001:2015 certified precision parts to global clients.
+                  </p>
                 </div>
-                <div style={{ background:C.navy, padding:"10px 16px", display:"inline-block", marginTop:0 }}>
-                  <span style={{ fontFamily:"'Barlow',sans-serif", fontSize:12, fontWeight:300, color:"rgba(255,255,255,.7)" }}>{t.teamCaption}</span>
+                <div style={{ display:"flex", gap:6, marginTop:4 }}>
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={C.silver} strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" style={{ animation:"spin 4s linear infinite" }}>
+                    <circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+                  </svg>
                 </div>
               </div>
+              <style>{`@keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}`}</style>
             </div>
           </div>
         </div>
