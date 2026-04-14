@@ -173,7 +173,7 @@ export default function About({ lang = "en" }) {
             </div>
             <div>
               <div style={{ position:"relative" }}>
-                <img src="/images/team.jpg" alt="Concorde team at factory" style={{ width:"100%", objectFit:"cover", display:"block" }}
+                <img src="/images/factory-gate.jpg" alt="Concorde Innovation factory" style={{ width:"100%", objectFit:"cover", display:"block" }}
                   onError={e => { e.target.style.display="none"; e.target.nextSibling.style.display="flex"; }}
                 />
                 <div style={{ display:"none", background:C.bgPanel, border:`1.5px dashed ${C.border}`, height:300, alignItems:"center", justifyContent:"center", flexDirection:"column", gap:8 }}>
