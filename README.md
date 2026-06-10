@@ -1,16 +1,31 @@
-# React + Vite
+# Concorde Innovation — Corporate Website
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A trilingual (English / 繁體中文 / 简体中文) corporate website for Concorde Innovation Limited, a precision manufacturing company. Designed, built, and deployed end-to-end.
 
-Currently, two official plugins are available:
+🔗 **Live site:** https://concordeinnovation.com
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Features
 
-## React Compiler
+- **Trilingual** — full EN / 繁中 / 简中 language switching on every page
+- **Responsive design** — optimized for desktop and mobile
+- **Multi-page architecture** — Home, Services, Why Us, About, Contact
+- **Consistent design system** — navy + silver brand palette, Rajdhani / Barlow typography
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Tech Stack
 
-## Expanding the ESLint configuration
+- **Framework:** React 18 + Vite
+- **Routing:** React Router
+- **Deployment:** Vercel (CI/CD from GitHub)
+- **Styling:** Custom CSS design system
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Development
+
+```bash
+npm install
+npm run dev      # start dev server
+npm run build    # production build
+```
+
+---
+
+Designed & developed by [JRTTF](https://github.com/JRTTF).
