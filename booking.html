@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>日·勻 𝘙𝘢𝘺𝘶𝘯𝘦☁︎｜線上預約</title>
+<title>日•勻 𝘙𝘢𝘺𝘶𝘯𝘦☁︎｜線上預約</title>
 <style>
   :root{
     --cream:#F2F7FB;
@@ -146,6 +146,23 @@
   .info-notes li:before{content:'·';position:absolute;left:6px;color:var(--pink-deep);font-weight:700;}
   .info-notes .notes-foot{text-align:center;font-size:11px;color:#9FB6C8;margin-top:10px;letter-spacing:1px;}
 
+  .price-card{text-align:center;}
+  .price-head{font-size:24px;letter-spacing:8px;color:var(--cocoa-deep);font-weight:700;}
+  .price-sub{font-size:14px;color:var(--cocoa);letter-spacing:2px;margin:2px 0 16px;}
+  .price-group{margin-bottom:14px;text-align:left;}
+  .price-row{display:flex;justify-content:space-between;align-items:baseline;padding:5px 2px;font-size:15px;gap:10px;}
+  .price-row .pn{font-weight:700;color:var(--cocoa-deep);}
+  .price-row .pn small,.price-row .pp small{font-size:11px;font-weight:400;color:var(--cocoa);}
+  .price-row .pp{font-weight:700;color:var(--cocoa-deep);flex-shrink:0;}
+  .price-note{font-size:11px;color:#9FB6C8;margin-top:2px;padding-left:2px;letter-spacing:.5px;}
+
+  .link-row{display:flex;gap:8px;margin-top:10px;}
+  .link-btn{flex:1;text-decoration:none;text-align:center;border-radius:14px;padding:12px 0;font-size:14px;font-weight:700;letter-spacing:1px;}
+  .link-btn.ig{background:linear-gradient(135deg,#F5D7D3,#E3B7B0);color:#7a4f48;}
+  .link-btn.line{background:#06C755;color:#fff;}
+  .deposit-hint{font-size:12px;color:var(--cocoa);margin-top:12px;line-height:1.7;letter-spacing:.5px;}
+  .sec-title{text-align:center;font-size:15px;font-weight:700;letter-spacing:1px;color:var(--cocoa-deep);margin:6px 0 12px;}
+
   #toast{
     position:fixed;left:50%;bottom:30px;
     transform:translateX(-50%) translateY(20px);
@@ -161,19 +178,13 @@
 <div class="wrap">
 
   <header>
-    <h1>日·勻 𝘙𝘢𝘺𝘶𝘯𝘦☁︎</h1>
+    <h1>日•勻 𝘙𝘢𝘺𝘶𝘯𝘦☁︎</h1>
     <p>NAIL ART · 線上預約</p>
   </header>
 
-  <div id="app">
-    <div class="loading">載入可預約時段中⋯ ☁️</div>
-  </div>
-
+  <!-- 1. 手模注意事項 -->
   <div class="card info-card">
-    <div class="info-title">📍 店家資訊</div>
-    <a class="map-btn" href="https://maps.app.goo.gl/WxJhVSqHaY9qsujYA" target="_blank" rel="noopener">開啟地圖 / 導航 ›</a>
-    <div class="info-addr">臺中市西屯區逢甲・大漁池公車站</div>
-    <div class="info-notes">
+    <div class="info-notes" style="margin-top:0;padding-top:0;border-top:none">
       <div class="ttl">-｀手模注意事項´-</div>
       <ul>
         <li>6/15 搬遷至西屯逢甲,🔍 大漁池公車站</li>
@@ -187,6 +198,49 @@
       </ul>
       <div class="notes-foot">（2026.06.01 更）</div>
     </div>
+  </div>
+
+  <!-- 2. 價格表 -->
+  <div class="card price-card">
+    <div class="price-head">PRICE</div>
+    <div class="price-sub">手模優惠價 ✦</div>
+    <div class="price-group">
+      <div class="price-row"><span class="pn">單色</span><span class="pp">$350 <small>(跳色+50)</small></span></div>
+      <div class="price-row"><span class="pn">貓眼</span><span class="pp">$400 <small>(跳色+50)</small></span></div>
+    </div>
+    <div class="price-group">
+      <div class="price-row"><span class="pn">自帶圖 <small>(報價依款式複雜度)</small></span><span class="pp">$500~999</span></div>
+      <div class="price-row"><span class="pn">暈染自由發揮 <small>(可選色系)</small></span><span class="pp">$600</span></div>
+      <div class="price-row"><span class="pn">許願主題不挑款</span><span class="pp">$550</span></div>
+      <div class="price-note">給 1~2 關鍵字如:海浪、天空,其他交給我～</div>
+    </div>
+    <div class="price-group">
+      <div class="price-row"><span class="pn">本店卸甲續作</span><span class="pp">$100</span></div>
+      <div class="price-row"><span class="pn">他店卸甲續作</span><span class="pp">$150 <small>(立體、大鑽+50)</small></span></div>
+      <div class="price-note">暫不接純卸甲</div>
+    </div>
+    <div class="price-group">
+      <div class="price-row"><span class="pn">補甲</span><span class="pp">$30 / 支</span></div>
+      <div class="price-row"><span class="pn">延甲</span><span class="pp">$45 / 支</span></div>
+    </div>
+  </div>
+
+  <!-- 3. 店家資訊 + 連結 -->
+  <div class="card info-card">
+    <div class="info-title">📍 店家資訊</div>
+    <div class="info-addr" style="margin-top:0;margin-bottom:12px">臺中市西屯區逢甲・大漁池公車站</div>
+    <a class="map-btn" href="https://maps.app.goo.gl/WxJhVSqHaY9qsujYA" target="_blank" rel="noopener">🗺️ 開啟地圖 / 導航</a>
+    <div class="link-row">
+      <a class="link-btn ig" href="https://www.instagram.com/rayune_studio" target="_blank" rel="noopener">Instagram</a>
+      <a class="link-btn line" href="https://lin.ee/YKoIP5R" target="_blank" rel="noopener">官方 LINE</a>
+    </div>
+    <div class="deposit-hint">預約後請加官方 LINE,支付定金 $100(可折抵費用),完成才算預約成功 🤍</div>
+  </div>
+
+  <!-- 4. 線上預約 -->
+  <div class="sec-title">📅 線上預約</div>
+  <div id="app">
+    <div class="loading">載入可預約時段中⋯ ☁️</div>
   </div>
 
 </div>
