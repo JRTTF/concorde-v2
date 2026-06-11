@@ -162,6 +162,10 @@
   .link-btn.line{background:#06C755;color:#fff;}
   .deposit-hint{font-size:12px;color:var(--cocoa);margin-top:12px;line-height:1.7;letter-spacing:.5px;}
   .sec-title{text-align:center;font-size:15px;font-weight:700;letter-spacing:1px;color:var(--cocoa-deep);margin:6px 0 12px;}
+  .book-policy{
+    background:var(--beige);border-radius:14px;padding:11px 14px;margin-bottom:14px;
+    font-size:12px;color:var(--cocoa-deep);text-align:center;line-height:1.7;letter-spacing:.5px;
+  }
 
   #toast{
     position:fixed;left:50%;bottom:30px;
@@ -234,11 +238,12 @@
       <a class="link-btn ig" href="https://www.instagram.com/rayune_studio" target="_blank" rel="noopener">Instagram</a>
       <a class="link-btn line" href="https://lin.ee/YKoIP5R" target="_blank" rel="noopener">官方 LINE</a>
     </div>
-    <div class="deposit-hint">預約後請加官方 LINE,支付定金 $100(可折抵費用),完成才算預約成功 🤍</div>
+    <div class="deposit-hint">💰 付定金:請點上方「官方 LINE」加入好友,直接在 LINE 上付款定金 $100(可折抵費用)。完成付款才算正式預約成功 🤍</div>
   </div>
 
   <!-- 4. 線上預約 -->
   <div class="sec-title">📅 線上預約</div>
+  <div class="book-policy">📢 每月 20 號開放「次月」預約<br>目前僅開放本月,次月請 20 號後再來預約 🤍</div>
   <div id="app">
     <div class="loading">載入可預約時段中⋯ ☁️</div>
   </div>
@@ -250,8 +255,9 @@
 const DB = 'https://cloud-nail-booking-default-rtdb.asia-southeast1.firebasedatabase.app';
 const FALLBACK_SLOTS = ['11:00','13:00','15:00','17:00'];
 const SERVICES = ['單色','貓眼','複雜造型','其他'];
-const BOOK_AHEAD_DAYS = 60;
 const MY_KEY = 'cloud-nail-my-bookings';
+const LINE_URL = 'https://lin.ee/YKoIP5R';
+const OPEN_NEXT_DAY = 20;   // 每月此日起開放「次月」預約
 
 let cfg = { defaultSlots: FALLBACK_SLOTS, overrides: {} };
 let allSlots = {};        // {date: {timeKey: reqId}}
@@ -259,7 +265,9 @@ let calY, calM;
 let selDate = null, selTime = null, selSvc = SERVICES[0];
 
 const today = new Date(); today.setHours(0,0,0,0);
-const maxDate = new Date(today); maxDate.setDate(maxDate.getDate()+BOOK_AHEAD_DAYS);
+// 預約開放範圍:本月;每月 OPEN_NEXT_DAY 號起加開「次月」(其餘月份不開放)
+const monthsAhead = today.getDate() >= OPEN_NEXT_DAY ? 2 : 1;
+const maxDate = new Date(today.getFullYear(), today.getMonth()+monthsAhead, 0);
 calY = today.getFullYear(); calM = today.getMonth();
 
 function fmt(d){
@@ -503,8 +511,9 @@ function showSuccess(b){
         '<b>服務:</b>'+esc(b.service)+
         (b.note?('<br><b>備註:</b>'+esc(b.note)):'') +
       '</div>' +
-      '<div class="hint">期待見到您 ☁️ 如需更改請聯絡店家</div>' +
-      '<br><button class="link-btn" onclick="init()">← 回到預約頁</button>' +
+      '<div class="hint" style="color:var(--expense-deep);font-weight:700">⚠️ 預約尚未完成!請加官方 LINE,在 LINE 上支付定金 $100(可折抵),完成付款才算正式預約成功</div>' +
+      '<a class="link-btn line" style="display:block;margin-top:12px;padding:14px 0;font-size:15px" href="'+LINE_URL+'" target="_blank" rel="noopener">前往官方 LINE 付定金 $100 ›</a>' +
+      '<div style="margin-top:12px"><button onclick="init()" style="border:none;background:transparent;color:var(--cocoa);font-size:13px;text-decoration:underline;cursor:pointer;letter-spacing:1px">← 回到預約頁</button></div>' +
     '</div>';
 }
 
