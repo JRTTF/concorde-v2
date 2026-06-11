@@ -86,13 +86,56 @@
     font-family:inherit;
   }
   .fld input:focus,.fld select:focus,.fld textarea:focus{border-color:var(--pink-deep);}
-  .svc-row{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;}
+  .svc-row{display:grid;grid-template-columns:repeat(2,1fr);gap:6px;}
   .svc{
     border:1.5px solid var(--beige-deep);background:var(--cream);
-    border-radius:12px;padding:10px 2px;font-size:12px;font-weight:600;
+    border-radius:12px;padding:9px 4px;font-size:13px;font-weight:600;
     color:var(--cocoa-deep);cursor:pointer;text-align:center;transition:.2s;
+    display:flex;flex-direction:column;align-items:center;gap:1px;
   }
+  .svc small{font-size:10px;font-weight:400;color:var(--cocoa);}
   .svc.active{background:var(--pink);border-color:var(--pink-deep);}
+  .svc.active small{color:var(--cocoa-deep);}
+  .addon-row{display:flex;flex-wrap:wrap;gap:6px;}
+  .addon{
+    border:1.5px solid var(--beige-deep);background:var(--cream);
+    border-radius:12px;padding:8px 11px;font-size:12px;font-weight:600;
+    color:var(--cocoa-deep);cursor:pointer;transition:.2s;
+  }
+  .addon small{font-size:10px;font-weight:400;color:var(--cocoa);margin-left:3px;}
+  .addon.active{background:var(--pink);border-color:var(--pink-deep);}
+  .addon.active small{color:var(--cocoa-deep);}
+  .est-box{
+    background:var(--cream);border-radius:12px;padding:11px 12px;
+    text-align:center;font-size:14px;font-weight:700;color:var(--cocoa-deep);
+    margin-bottom:10px;
+  }
+  .est-box span{color:var(--expense-deep);font-size:18px;margin-left:4px;}
+  .est-box small{display:block;font-size:11px;font-weight:400;color:var(--cocoa);margin-top:2px;}
+
+  .modal-overlay{
+    position:fixed;inset:0;background:rgba(63,97,126,.45);
+    display:none;align-items:center;justify-content:center;z-index:200;padding:24px;
+  }
+  .modal-overlay.show{display:flex;}
+  .modal-box{
+    background:var(--milk);border-radius:20px;padding:24px 20px;
+    max-width:340px;width:100%;text-align:center;
+    box-shadow:0 12px 40px rgba(63,97,126,.3);
+  }
+  .modal-emoji{font-size:36px;}
+  .modal-title{font-size:17px;font-weight:800;letter-spacing:1px;margin:8px 0 6px;color:var(--cocoa-deep);}
+  .modal-text{font-size:13px;color:var(--cocoa);line-height:1.8;margin-bottom:18px;}
+  .modal-yes{
+    width:100%;border:none;cursor:pointer;
+    background:linear-gradient(135deg,var(--pink-deep),var(--pink));
+    color:var(--cocoa-deep);font-size:15px;font-weight:800;letter-spacing:1px;
+    padding:13px 0;border-radius:14px;
+  }
+  .modal-no{
+    width:100%;border:none;background:transparent;color:var(--cocoa);
+    font-size:13px;text-decoration:underline;cursor:pointer;margin-top:10px;padding:6px;
+  }
 
   .btn-main{
     width:100%;border:none;
@@ -186,7 +229,14 @@
     <p>NAIL ART · 線上預約</p>
   </header>
 
-  <!-- 1. 手模注意事項 -->
+  <!-- 1. 線上預約(放第一個) -->
+  <div class="sec-title">📅 線上預約</div>
+  <div class="book-policy">📢 每月 20 號開放「次月」預約<br>目前僅開放本月,次月請 20 號後再來預約 🤍</div>
+  <div id="app">
+    <div class="loading">載入可預約時段中⋯ ☁️</div>
+  </div>
+
+  <!-- 2. 手模注意事項 -->
   <div class="card info-card">
     <div class="info-notes" style="margin-top:0;padding-top:0;border-top:none">
       <div class="ttl">-｀手模注意事項´-</div>
@@ -241,20 +291,30 @@
     <div class="deposit-hint">💰 付定金:請點上方「官方 LINE」加入好友,直接在 LINE 上付款定金 $100(可折抵費用)。完成付款才算正式預約成功 🤍</div>
   </div>
 
-  <!-- 4. 線上預約 -->
-  <div class="sec-title">📅 線上預約</div>
-  <div class="book-policy">📢 每月 20 號開放「次月」預約<br>目前僅開放本月,次月請 20 號後再來預約 🤍</div>
-  <div id="app">
-    <div class="loading">載入可預約時段中⋯ ☁️</div>
-  </div>
+</div>
 
+<!-- 注意事項確認彈窗 -->
+<div id="noticeModal" class="modal-overlay">
+  <div class="modal-box">
+    <div class="modal-emoji">📋</div>
+    <div class="modal-title">預約前確認</div>
+    <div class="modal-text">您是否已詳閱「手模注意事項」?<br>(含定金 $100、取消規則、需保留指甲長度等)</div>
+    <button class="modal-yes" onclick="confirmNotice()">我已詳閱,確認預約</button>
+    <button class="modal-no" onclick="gotoNotes()">先去看注意事項</button>
+  </div>
 </div>
 <div id="toast"></div>
 
 <script>
 const DB = 'https://cloud-nail-booking-default-rtdb.asia-southeast1.firebasedatabase.app';
 const FALLBACK_SLOTS = ['11:00','13:00','15:00','17:00'];
-const SERVICES = ['單色','貓眼','複雜造型','其他'];
+const SERVICES = [
+  {name:'單色', price:350, jump:true},
+  {name:'貓眼', price:400, jump:true},
+  {name:'自帶圖', price:'500~999'},
+  {name:'暈染自由發揮', price:600},
+  {name:'許願主題不挑款', price:550}
+];
 const MY_KEY = 'cloud-nail-my-bookings';
 const LINE_URL = 'https://lin.ee/YKoIP5R';
 const OPEN_NEXT_DAY = 20;   // 每月此日起開放「次月」預約
@@ -262,7 +322,7 @@ const OPEN_NEXT_DAY = 20;   // 每月此日起開放「次月」預約
 let cfg = { defaultSlots: FALLBACK_SLOTS, overrides: {} };
 let allSlots = {};        // {date: {timeKey: reqId}}
 let calY, calM;
-let selDate = null, selTime = null, selSvc = SERVICES[0];
+let selDate = null, selTime = null, selSvc = SERVICES[0].name, selJump = false, selRemove = 'none';
 
 const today = new Date(); today.setHours(0,0,0,0);
 // 預約開放範圍:本月;每月 OPEN_NEXT_DAY 號起加開「次月」(其餘月份不開放)
@@ -347,8 +407,11 @@ function render(){
       '<div class="form-title">📝 填寫預約資料</div>' +
       '<div class="fld"><label>姓名 *</label><input id="fName" type="text" placeholder="您的稱呼"></div>' +
       '<div class="fld"><label>電話 *</label><input id="fPhone" type="tel" inputmode="tel" placeholder="例:0912345678"></div>' +
+      '<div class="fld"><label>LINE 名稱 *</label><input id="fLine" type="text" placeholder="付定金時方便對帳"></div>' +
       '<div class="fld"><label>服務項目</label><div class="svc-row" id="svcRow"></div></div>' +
-      '<div class="fld"><label>備註(可不填)</label><textarea id="fNote" rows="2" placeholder="想做的款式、卸甲需求等"></textarea></div>' +
+      '<div class="fld"><label>加購</label><div class="addon-row" id="addonRow"></div></div>' +
+      '<div class="est-box">預估金額 <span id="estVal">$0</span><small>實際金額以現場施作為準</small></div>' +
+      '<div class="fld"><label>備註(可不填)</label><textarea id="fNote" rows="2" placeholder="想做的款式、自帶圖、特殊需求等"></textarea></div>' +
       '<button class="btn-main" id="btnSubmit">確 認 預 約</button>' +
     '</div>' +
     '<div class="card mine" id="mineCard" style="display:none">' +
@@ -361,7 +424,7 @@ function render(){
   renderCal();
   renderSvc();
   renderMine();
-  document.getElementById('btnSubmit').onclick = submitBooking;
+  document.getElementById('btnSubmit').onclick = openNotice;
 }
 function moveMonth(d){
   calM += d;
@@ -427,16 +490,64 @@ function renderSlots(){
   form.style.display = selTime ? 'block' : 'none';
   if(selTime) setTimeout(()=>form.scrollIntoView({behavior:'smooth', block:'center'}), 80);
 }
+function svcObj(){ return SERVICES.find(s=>s.name===selSvc) || SERVICES[0]; }
 function renderSvc(){
   const row = document.getElementById('svcRow');
   row.innerHTML = '';
   SERVICES.forEach(s=>{
     const b = document.createElement('button');
-    b.className = 'svc' + (s===selSvc?' active':'');
-    b.textContent = s;
-    b.onclick = (e)=>{ e.preventDefault(); selSvc=s; renderSvc(); };
+    b.className = 'svc' + (s.name===selSvc?' active':'');
+    b.innerHTML = esc(s.name) + '<small>$'+s.price+'</small>';
+    b.onclick = (e)=>{ e.preventDefault(); selSvc=s.name; if(!svcObj().jump) selJump=false; renderSvc(); };
     row.appendChild(b);
   });
+  renderAddons();
+  renderEst();
+}
+function renderAddons(){
+  const row = document.getElementById('addonRow');
+  if(!row) return;
+  row.innerHTML = '';
+  const s = svcObj();
+  if(s.jump){
+    const b = document.createElement('button');
+    b.className = 'addon' + (selJump?' active':'');
+    b.innerHTML = '跳色<small>+$50</small>';
+    b.onclick = (e)=>{ e.preventDefault(); selJump=!selJump; renderAddons(); renderEst(); };
+    row.appendChild(b);
+  }
+  [['none','不需卸甲',''],['self','本店卸甲','+$100'],['other','他店卸甲','+$150']].forEach(([v,lbl,pr])=>{
+    const b = document.createElement('button');
+    b.className = 'addon' + (selRemove===v?' active':'');
+    b.innerHTML = esc(lbl) + (pr?'<small>'+pr+'</small>':'');
+    b.onclick = (e)=>{ e.preventDefault(); selRemove=v; renderAddons(); renderEst(); };
+    row.appendChild(b);
+  });
+}
+function addonTotal(){
+  const s = svcObj();
+  let add = 0;
+  if(selJump && s.jump) add += 50;
+  if(selRemove==='self') add += 100;
+  if(selRemove==='other') add += 150;
+  return add;
+}
+function estimateText(){
+  const s = svcObj(); const add = addonTotal();
+  if(typeof s.price === 'number') return '$' + (s.price+add);
+  const parts = String(s.price).split('~').map(Number);
+  return '$' + (parts[0]+add) + '~' + (parts[1]+add);
+}
+function renderEst(){
+  const el = document.getElementById('estVal');
+  if(el) el.textContent = estimateText();
+}
+function svcSummary(){
+  const parts = [svcObj().name];
+  if(selJump && svcObj().jump) parts.push('跳色');
+  if(selRemove==='self') parts.push('本店卸甲');
+  if(selRemove==='other') parts.push('他店卸甲');
+  return parts.join('・');
 }
 function renderMine(){
   let mine = [];
@@ -457,12 +568,29 @@ function renderMine(){
 }
 
 /* ===== Submit ===== */
-async function submitBooking(){
+function openNotice(){
   const name = document.getElementById('fName').value.trim();
   const phone = document.getElementById('fPhone').value.trim();
-  const note = document.getElementById('fNote').value.trim();
+  const line = document.getElementById('fLine').value.trim();
   if(!name){ toast('請填寫姓名'); return; }
   if(!/^[\d+\-\s]{7,}$/.test(phone)){ toast('請填寫正確電話'); return; }
+  if(!line){ toast('請填寫 LINE 名稱'); return; }
+  document.getElementById('noticeModal').classList.add('show');
+}
+function gotoNotes(){
+  document.getElementById('noticeModal').classList.remove('show');
+  const n = document.querySelector('.info-notes');
+  if(n) n.scrollIntoView({behavior:'smooth', block:'start'});
+}
+function confirmNotice(){
+  document.getElementById('noticeModal').classList.remove('show');
+  doSubmit();
+}
+async function doSubmit(){
+  const name = document.getElementById('fName').value.trim();
+  const phone = document.getElementById('fPhone').value.trim();
+  const line = document.getElementById('fLine').value.trim();
+  const note = document.getElementById('fNote').value.trim();
   const btn = document.getElementById('btnSubmit');
   btn.disabled = true; btn.textContent = '送出中⋯';
   const id = 'b' + Date.now() + Math.random().toString(16).slice(2,8);
@@ -478,7 +606,7 @@ async function submitBooking(){
       return;
     }
     // 2) 再寫入預約明細(姓名電話,只有店家讀得到)
-    const booking = { date:selDate, time:selTime, name, phone, service:selSvc, note, createdAt: Date.now() };
+    const booking = { date:selDate, time:selTime, name, phone, lineName:line, service:svcSummary(), est:estimateText(), note, createdAt: Date.now() };
     const reqRes = await fetch(DB + '/booking/requests/' + id + '.json', {
       method:'PUT', headers:{'Content-Type':'application/json'}, body: JSON.stringify(booking)
     });
@@ -486,7 +614,7 @@ async function submitBooking(){
     // 記到本機「我的預約」
     let mine = [];
     try{ mine = JSON.parse(localStorage.getItem(MY_KEY)) || []; }catch(e){}
-    mine.push({ id, date:selDate, time:selTime, name, service:selSvc });
+    mine.push({ id, date:selDate, time:selTime, name, service:svcSummary() });
     localStorage.setItem(MY_KEY, JSON.stringify(mine));
     if(!allSlots[selDate]) allSlots[selDate] = {};
     allSlots[selDate][timeKey(selTime)] = id;
@@ -508,7 +636,8 @@ function showSuccess(b){
         '<b>日期:</b>'+y+' 年 '+Number(m)+' 月 '+Number(d)+' 日<br>' +
         '<b>時間:</b>'+b.time+'<br>' +
         '<b>姓名:</b>'+esc(b.name)+'<br>' +
-        '<b>服務:</b>'+esc(b.service)+
+        '<b>服務:</b>'+esc(b.service)+'<br>' +
+        '<b>預估金額:</b>'+esc(b.est||'')+
         (b.note?('<br><b>備註:</b>'+esc(b.note)):'') +
       '</div>' +
       '<div class="hint" style="color:var(--expense-deep);font-weight:700">⚠️ 預約尚未完成!請加官方 LINE,在 LINE 上支付定金 $100(可折抵),完成付款才算正式預約成功</div>' +

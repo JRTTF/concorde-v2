@@ -353,6 +353,7 @@
     font-size:13px;font-weight:700;cursor:pointer;text-align:center;transition:.2s;
   }
   .bk-slot.open{background:var(--milk);border-color:var(--cocoa);color:var(--cocoa-deep);}
+  .bk-slot.full{background:var(--expense);border-color:var(--expense);color:#fff;}
   .bk-slot.booked{background:var(--cocoa);border-color:var(--cocoa);color:#fff;cursor:not-allowed;}
   .bk-day-closed{
     width:100%;border:1.5px solid var(--beige-deep);
@@ -737,6 +738,8 @@ function renderAgenda(){
     div.innerHTML = '<span class="t">'+esc(b.time||'')+'</span>'
       + '<span class="who">'+esc(b.name||'')
       + '<small> '+(b.phone?'<a href="tel:'+esc(b.phone)+'">📞'+esc(b.phone)+'</a>':'')
+      + (b.lineName?'｜LINE:'+esc(b.lineName):'')
+      + (b.est?'｜'+esc(b.est):'')
       + (b.note?'｜'+esc(b.note):'')+'</small></span>'
       + '<span class="svc">'+esc(b.service||'')+'</span>';
     bkBox.appendChild(div);
@@ -1376,8 +1379,11 @@ async function renderBook(){
     '<div class="card"><div class="form-title" id="bkListTitle"></div><div class="bk-list" id="bkList"></div></div>' +
     '<div class="card"><div class="form-title" id="bkSlotTitle"></div>' +
       '<div class="bk-slot-grid" id="bkSlotGrid"></div>' +
-      '<button class="bk-day-closed" id="bkClosedBtn" onclick="toggleDayClosed()"></button>' +
-      '<div class="hint">點時段切換 開放/關閉|深藍=已有預約(取消該筆預約後才能關閉)</div>' +
+      '<div class="bk-tools" style="margin-bottom:8px">' +
+        '<button class="bk-day-closed" id="bkFullBtn" onclick="blockAllDay()" style="flex:1"></button>' +
+        '<button class="bk-day-closed" id="bkClosedBtn" onclick="toggleDayClosed()" style="flex:1"></button>' +
+      '</div>' +
+      '<div class="hint">點單一時段切換「可預約 / 已滿」｜🟧已滿=您手動封鎖、藍=客人已約、白=可預約</div>' +
     '</div>' +
     '<div class="card"><div class="form-title">⚙️ 預設每日時段(未個別調整的日期適用)</div>' +
       '<div class="bk-slot-grid" id="bkDefGrid"></div>' +
@@ -1434,6 +1440,8 @@ function renderBkDay(){
       div.innerHTML = '<span class="time">'+b.time+'</span>'
         + '<span class="who">'+esc(b.name)
         + '<small><a href="tel:'+esc(b.phone)+'">📞 '+esc(b.phone)+'</a>'
+        + (b.lineName?'｜LINE:'+esc(b.lineName):'')
+        + (b.est?'｜'+esc(b.est):'')
         + (b.note?'｜'+esc(b.note):'') + '</small></span>'
         + '<span class="svc">'+esc(b.service||'')+'</span>';
       const del = document.createElement('button');
@@ -1450,28 +1458,68 @@ function renderBkDay(){
   const grid = document.getElementById('bkSlotGrid');
   grid.innerHTML = '';
   const bookedT = items.map(([id,b])=>b.time);
+  const daySlots = bkSlots[bkSel] || {};
   SLOT_UNIVERSE.forEach(t=>{
     const b = document.createElement('button');
     const isBooked = bookedT.includes(t);
-    const isOpen = !closed && slots.includes(t);
-    b.className = 'bk-slot' + (isBooked?' booked':(isOpen?' open':''));
+    const isBlocked = daySlots[timeKey(t)] === 'BLOCKED';
+    const isOffered = !closed && slots.includes(t);
+    b.className = 'bk-slot' + (isBooked?' booked':(isBlocked?' full':(isOffered?' open':'')));
     b.textContent = t;
-    b.onclick = ()=>toggleSlot(t, isBooked, isOpen, closed);
+    b.onclick = ()=>toggleSlot(t, isBooked, isBlocked, isOffered, closed);
     grid.appendChild(b);
   });
   const cb = document.getElementById('bkClosedBtn');
-  cb.textContent = closed ? '🌙 本日店休中(點擊恢復營業)' : '設為整日店休';
+  cb.textContent = closed ? '🌙 本日店休中(點擊恢復)' : '設為整日店休';
   cb.className = 'bk-day-closed' + (closed?' closed':'');
+  // 整日已滿按鈕
+  const fb = document.getElementById('bkFullBtn');
+  if(fb){
+    const free = closed ? [] : slots.filter(t=>!bookedT.includes(t));
+    const allBlocked = free.length>0 && free.every(t=>daySlots[timeKey(t)]==='BLOCKED');
+    fb.textContent = allBlocked ? '取消整日已滿' : '設整日已滿';
+    fb.className = 'bk-day-closed' + (allBlocked?' closed':'');
+  }
 }
-async function toggleSlot(t, isBooked, isOpen, closed){
-  if(isBooked){ toast('此時段已有預約'); return; }
+async function toggleSlot(t, isBooked, isBlocked, isOffered, closed){
+  if(isBooked){ toast('客人已預約,請從上方取消該筆預約'); return; }
   if(closed){ toast('本日店休,請先恢復營業'); return; }
-  const cur = bkSlotsFor(bkSel) || [];
-  const next = isOpen ? cur.filter(x=>x!==t) : cur.concat([t]).sort();
+  if(!isOffered && !isBlocked){ toast('此時段未開放,可至下方「預設每日時段」調整'); return; }
+  const key = timeKey(t);
   try{
-    await dbPut('/booking/config/overrides/' + bkSel, {slots: next}, true);
-    bkCfg.overrides = bkCfg.overrides || {};
-    bkCfg.overrides[bkSel] = {slots: next};
+    if(isBlocked){
+      await dbDelete('/booking/slots/' + bkSel + '/' + key, true);
+      if(bkSlots[bkSel]) delete bkSlots[bkSel][key];
+      toast('已取消「已滿」');
+    }else{
+      await dbPut('/booking/slots/' + bkSel + '/' + key, 'BLOCKED', true);
+      bkSlots[bkSel] = bkSlots[bkSel] || {};
+      bkSlots[bkSel][key] = 'BLOCKED';
+      toast('已設為已滿');
+    }
+    renderBkDay();
+  }catch(e){ toast('儲存失敗,請重試'); }
+}
+async function blockAllDay(){
+  const slots = bkSlotsFor(bkSel);
+  if(!slots){ toast('本日店休中,請先恢復營業'); return; }
+  const bookedT = bkBookingsOf(bkSel).map(([id,b])=>b.time);
+  const free = slots.filter(t=>!bookedT.includes(t));
+  if(!free.length){ toast('本日沒有可調整的時段'); return; }
+  bkSlots[bkSel] = bkSlots[bkSel] || {};
+  const allBlocked = free.every(t=>bkSlots[bkSel][timeKey(t)]==='BLOCKED');
+  try{
+    for(const t of free){
+      const key = timeKey(t);
+      if(allBlocked){
+        await dbDelete('/booking/slots/' + bkSel + '/' + key, true);
+        delete bkSlots[bkSel][key];
+      }else if(bkSlots[bkSel][key] !== 'BLOCKED'){
+        await dbPut('/booking/slots/' + bkSel + '/' + key, 'BLOCKED', true);
+        bkSlots[bkSel][key] = 'BLOCKED';
+      }
+    }
+    toast(allBlocked ? '已取消整日已滿' : '本日已設為額滿');
     renderBkDay();
   }catch(e){ toast('儲存失敗,請重試'); }
 }
