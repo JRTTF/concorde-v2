@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>雲朵老師的小店｜美甲記帳系統</title>
+<title>日·勻 𝘙𝘢𝘺𝘶𝘯𝘦☁︎｜美甲記帳系統</title>
 <style>
   :root{
     --cream:#F2F7FB;
@@ -407,7 +407,7 @@
 
   <header>
     <div class="cloud">☁️</div>
-    <h1>雲朵老師的小店</h1>
+    <h1>日·勻 𝘙𝘢𝘺𝘶𝘯𝘦☁︎</h1>
     <p>NAIL ART · 美甲記帳</p>
   </header>
 
@@ -1176,7 +1176,7 @@ function exportData(){
   const blob = new Blob([JSON.stringify(records, null, 2)], {type:'application/json'});
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
-  a.download = '雲朵老師記帳備份_' + fmt(new Date()) + '.json';
+  a.download = 'Rayune記帳備份_' + fmt(new Date()) + '.json';
   a.click();
   URL.revokeObjectURL(a.href);
   toast('已匯出備份檔');
