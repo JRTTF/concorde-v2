@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>雲朵老師的小店｜線上預約</title>
+<style>
+  :root{
+    --cream:#F2F7FB;
+    --milk:#FBFDFF;
+    --beige:#E1ECF5;
+    --beige-deep:#CBDEED;
+    --cocoa:#6B89A3;
+    --cocoa-deep:#3F617E;
+    --pink:#CFE3F2;
+    --pink-deep:#A8CBE5;
+    --green:#6E957A;
+    --red:#C25B5B;
+    --shadow:0 6px 18px rgba(86,116,141,.12);
+    --radius:22px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+  body{
+    font-family:"PingFang TC","Noto Sans TC","Microsoft JhengHei",sans-serif;
+    background:var(--cream);color:var(--cocoa-deep);
+    min-height:100vh;padding-bottom:40px;
+  }
+  .wrap{max-width:480px;margin:0 auto;padding:0 16px;}
+  header{text-align:center;padding:24px 0 14px;}
+  header .cloud{font-size:30px;}
+  header h1{font-size:22px;letter-spacing:2px;margin-top:2px;}
+  header p{font-size:12px;color:var(--cocoa);letter-spacing:3px;margin-top:4px;}
+
+  .card{
+    background:var(--milk);border-radius:var(--radius);
+    box-shadow:var(--shadow);padding:18px;margin-bottom:16px;
+  }
+  .form-title{font-size:15px;margin-bottom:12px;letter-spacing:1px;font-weight:700;}
+
+  .cal-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;}
+  .cal-head .title{font-size:17px;font-weight:700;letter-spacing:1px;}
+  .cal-head button{
+    border:none;background:var(--beige);color:var(--cocoa-deep);
+    width:36px;height:36px;border-radius:50%;font-size:16px;cursor:pointer;
+  }
+  .cal-head button:disabled{opacity:.3;}
+  .cal-grid{display:grid;grid-template-columns:repeat(7,1fr);text-align:center;row-gap:4px;}
+  .cal-grid .dow{font-size:12px;color:var(--cocoa);padding:6px 0;font-weight:600;}
+  .cal-grid .day{
+    position:relative;border:none;background:transparent;
+    aspect-ratio:1/1;border-radius:50%;font-size:14px;
+    color:var(--cocoa-deep);cursor:pointer;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;transition:.2s;
+  }
+  .cal-grid .day.empty{cursor:default;}
+  .cal-grid .day.off{color:#C2D2DF;cursor:default;}
+  .cal-grid .day.full{color:#C2D2DF;cursor:default;}
+  .cal-grid .day .st{font-size:8px;line-height:1;margin-top:1px;color:var(--red);}
+  .cal-grid .day.off .st{color:#C2D2DF;}
+  .cal-grid .day.selected{background:var(--cocoa);color:#fff;font-weight:700;}
+  .cal-grid .day.selected .st{color:#fff;}
+  .cal-grid .day.today:not(.selected){box-shadow:inset 0 0 0 2px var(--pink-deep);}
+
+  .slot-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
+  .slot{
+    border:1.5px solid var(--beige-deep);background:var(--cream);
+    color:var(--cocoa-deep);border-radius:14px;
+    padding:13px 4px;font-size:14px;font-weight:700;
+    cursor:pointer;transition:.2s;text-align:center;
+  }
+  .slot.active{
+    background:var(--cocoa);border-color:var(--cocoa);color:#fff;
+    box-shadow:0 3px 8px rgba(63,97,126,.25);
+  }
+  .empty-msg{
+    text-align:center;color:#9FB6C8;font-size:13px;
+    padding:18px 0;letter-spacing:1px;line-height:1.8;
+  }
+
+  .fld{margin-bottom:10px;}
+  .fld label{font-size:12px;color:var(--cocoa);letter-spacing:1px;display:block;margin-bottom:5px;}
+  .fld input,.fld select,.fld textarea{
+    width:100%;border:1.5px solid var(--beige-deep);
+    background:var(--cream);border-radius:14px;
+    padding:12px;font-size:15px;color:var(--cocoa-deep);outline:none;
+    font-family:inherit;
+  }
+  .fld input:focus,.fld select:focus,.fld textarea:focus{border-color:var(--pink-deep);}
+  .svc-row{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;}
+  .svc{
+    border:1.5px solid var(--beige-deep);background:var(--cream);
+    border-radius:12px;padding:10px 2px;font-size:12px;font-weight:600;
+    color:var(--cocoa-deep);cursor:pointer;text-align:center;transition:.2s;
+  }
+  .svc.active{background:var(--pink);border-color:var(--pink-deep);}
+
+  .btn-main{
+    width:100%;border:none;
+    background:linear-gradient(135deg,var(--pink-deep),var(--pink));
+    color:var(--cocoa-deep);font-size:16px;font-weight:800;
+    letter-spacing:4px;padding:14px 0;border-radius:16px;
+    cursor:pointer;box-shadow:0 4px 10px rgba(168,203,229,.5);
+    margin-top:4px;
+  }
+  .btn-main:disabled{opacity:.5;}
+
+  .success{text-align:center;padding:10px 0;}
+  .success .big{font-size:44px;}
+  .success h2{font-size:18px;margin:10px 0 6px;letter-spacing:2px;}
+  .success .detail{
+    background:var(--cream);border-radius:14px;
+    padding:14px;font-size:14px;line-height:2;margin:12px 0;
+    text-align:left;
+  }
+  .success .detail b{color:var(--cocoa-deep);}
+  .link-btn{
+    border:none;background:transparent;color:var(--cocoa);
+    font-size:13px;text-decoration:underline;cursor:pointer;letter-spacing:1px;
+  }
+
+  .mine .bk{
+    display:flex;align-items:center;gap:10px;
+    background:var(--cream);border-radius:14px;
+    padding:10px 12px;margin-bottom:8px;font-size:13px;
+  }
+  .mine .bk .t{font-weight:700;flex-shrink:0;}
+  .mine .bk .s{margin-left:auto;color:var(--cocoa);flex-shrink:0;}
+  .mine .bk.cancelled{opacity:.5;text-decoration:line-through;}
+
+  .loading{text-align:center;padding:40px 0;color:var(--cocoa);font-size:14px;letter-spacing:2px;}
+  .hint{font-size:11px;color:#9FB6C8;margin-top:8px;text-align:center;line-height:1.7;}
+
+  #toast{
+    position:fixed;left:50%;bottom:30px;
+    transform:translateX(-50%) translateY(20px);
+    background:var(--cocoa-deep);color:#fff;
+    font-size:13px;padding:10px 22px;border-radius:20px;
+    opacity:0;transition:.3s;pointer-events:none;
+    z-index:99;letter-spacing:1px;white-space:nowrap;
+  }
+  #toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="cloud">☁️</div>
+    <h1>雲朵老師的小店</h1>
+    <p>NAIL ART · 線上預約</p>
+  </header>
+
+  <div id="app">
+    <div class="loading">載入可預約時段中⋯ ☁️</div>
+  </div>
+
+</div>
+<div id="toast"></div>
+
+<script>
+const DB = 'https://cloud-nail-booking-default-rtdb.asia-southeast1.firebasedatabase.app';
+const FALLBACK_SLOTS = ['11:00','13:00','15:00','17:00'];
+const SERVICES = ['單色','貓眼','複雜造型','其他'];
+const BOOK_AHEAD_DAYS = 60;
+const MY_KEY = 'cloud-nail-my-bookings';
+
+let cfg = { defaultSlots: FALLBACK_SLOTS, overrides: {} };
+let allSlots = {};        // {date: {timeKey: reqId}}
+let calY, calM;
+let selDate = null, selTime = null, selSvc = SERVICES[0];
+
+const today = new Date(); today.setHours(0,0,0,0);
+const maxDate = new Date(today); maxDate.setDate(maxDate.getDate()+BOOK_AHEAD_DAYS);
+calY = today.getFullYear(); calM = today.getMonth();
+
+function fmt(d){
+  return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+}
+function timeKey(t){ return t.replace(':',''); }            // "11:00" -> "1100"
+function keyTime(k){ return k.slice(0,2) + ':' + k.slice(2); } // "1100" -> "11:00"
+function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function toast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  clearTimeout(t._tm);
+  t._tm = setTimeout(()=>t.classList.remove('show'), 2000);
+}
+
+/* ===== Cloud (公開讀取,不含個資) ===== */
+async function fetchJSON(url){
+  const r = await fetch(url);
+  if(!r.ok) throw new Error('net');
+  return await r.json();
+}
+async function loadAll(){
+  const [c, s] = await Promise.all([
+    fetchJSON(DB + '/booking/config.json'),
+    fetchJSON(DB + '/booking/slots.json')
+  ]);
+  cfg = {
+    defaultSlots: (c && c.defaultSlots) ? c.defaultSlots : FALLBACK_SLOTS,
+    overrides: (c && c.overrides) ? c.overrides : {}
+  };
+  allSlots = s || {};
+}
+
+/* ===== Slot logic ===== */
+function slotsFor(ds){
+  const ov = (cfg.overrides||{})[ds];
+  if(ov){
+    if(ov.closed) return null;
+    if(ov.slots) return ov.slots.slice().sort();
+  }
+  return (cfg.defaultSlots || FALLBACK_SLOTS).slice().sort();
+}
+function bookedTimes(ds){
+  return Object.keys(allSlots[ds] || {}).map(keyTime);
+}
+function freeSlots(ds){
+  const s = slotsFor(ds);
+  if(!s) return null;
+  const bt = bookedTimes(ds);
+  let free = s.filter(t=>!bt.includes(t));
+  if(ds === fmt(new Date())){
+    const now = new Date();
+    const cur = String(now.getHours()).padStart(2,'0') + ':' + String(now.getMinutes()).padStart(2,'0');
+    free = free.filter(t=>t>cur);
+  }
+  return free;
+}
+
+/* ===== Views ===== */
+function render(){
+  const app = document.getElementById('app');
+  app.innerHTML =
+    '<div class="card">' +
+      '<div class="cal-head">' +
+        '<button id="prevM">‹</button>' +
+        '<div class="title">'+calY+' 年 '+(calM+1)+' 月</div>' +
+        '<button id="nextM">›</button>' +
+      '</div>' +
+      '<div class="cal-grid" id="calGrid"></div>' +
+      '<div class="hint">●可預約日期點選後出現時段｜「滿」=已額滿｜「休」=店休</div>' +
+    '</div>' +
+    '<div class="card" id="slotCard" style="display:none">' +
+      '<div class="form-title" id="slotTitle"></div>' +
+      '<div class="slot-grid" id="slotGrid"></div>' +
+    '</div>' +
+    '<div class="card" id="formCard" style="display:none">' +
+      '<div class="form-title">📝 填寫預約資料</div>' +
+      '<div class="fld"><label>姓名 *</label><input id="fName" type="text" placeholder="您的稱呼"></div>' +
+      '<div class="fld"><label>電話 *</label><input id="fPhone" type="tel" inputmode="tel" placeholder="例:0912345678"></div>' +
+      '<div class="fld"><label>服務項目</label><div class="svc-row" id="svcRow"></div></div>' +
+      '<div class="fld"><label>備註(可不填)</label><textarea id="fNote" rows="2" placeholder="想做的款式、卸甲需求等"></textarea></div>' +
+      '<button class="btn-main" id="btnSubmit">確 認 預 約</button>' +
+    '</div>' +
+    '<div class="card mine" id="mineCard" style="display:none">' +
+      '<div class="form-title">📌 我的預約</div>' +
+      '<div id="mineList"></div>' +
+      '<div class="hint">如需更改或取消,請直接聯絡店家</div>' +
+    '</div>';
+  document.getElementById('prevM').onclick = ()=>moveMonth(-1);
+  document.getElementById('nextM').onclick = ()=>moveMonth(1);
+  renderCal();
+  renderSvc();
+  renderMine();
+  document.getElementById('btnSubmit').onclick = submitBooking;
+}
+function moveMonth(d){
+  calM += d;
+  if(calM<0){ calM=11; calY--; }
+  if(calM>11){ calM=0; calY++; }
+  renderCal();
+}
+function renderCal(){
+  document.querySelector('.cal-head .title').textContent = calY+' 年 '+(calM+1)+' 月';
+  const grid = document.getElementById('calGrid');
+  grid.innerHTML = '';
+  ['日','一','二','三','四','五','六'].forEach(d=>{
+    const el = document.createElement('div');
+    el.className='dow'; el.textContent=d; grid.appendChild(el);
+  });
+  const first = new Date(calY, calM, 1).getDay();
+  const days = new Date(calY, calM+1, 0).getDate();
+  for(let i=0;i<first;i++){
+    const el = document.createElement('button');
+    el.className='day empty'; grid.appendChild(el);
+  }
+  const todayStr = fmt(new Date());
+  for(let d=1;d<=days;d++){
+    const dt = new Date(calY, calM, d);
+    const ds = fmt(dt);
+    const el = document.createElement('button');
+    el.className='day'; el.textContent=d;
+    if(ds===todayStr) el.classList.add('today');
+    if(ds===selDate) el.classList.add('selected');
+    if(dt < today || dt > maxDate){
+      el.classList.add('off');
+    }else{
+      const free = freeSlots(ds);
+      if(free===null){
+        el.classList.add('off');
+        el.innerHTML = d+'<span class="st">休</span>';
+      }else if(free.length===0){
+        el.classList.add('full');
+        el.innerHTML = d+'<span class="st">滿</span>';
+      }else{
+        el.onclick = ()=>{ selDate=ds; selTime=null; renderCal(); renderSlots(); };
+      }
+    }
+    grid.appendChild(el);
+  }
+}
+function renderSlots(){
+  const card = document.getElementById('slotCard');
+  const form = document.getElementById('formCard');
+  if(!selDate){ card.style.display='none'; form.style.display='none'; return; }
+  card.style.display='block';
+  const [y,m,d] = selDate.split('-');
+  document.getElementById('slotTitle').textContent = '🕐 '+Number(m)+' 月 '+Number(d)+' 日 可預約時段';
+  const grid = document.getElementById('slotGrid');
+  grid.innerHTML = '';
+  (freeSlots(selDate)||[]).forEach(t=>{
+    const b = document.createElement('button');
+    b.className = 'slot' + (t===selTime?' active':'');
+    b.textContent = t;
+    b.onclick = ()=>{ selTime=t; renderSlots(); };
+    grid.appendChild(b);
+  });
+  form.style.display = selTime ? 'block' : 'none';
+  if(selTime) setTimeout(()=>form.scrollIntoView({behavior:'smooth', block:'center'}), 80);
+}
+function renderSvc(){
+  const row = document.getElementById('svcRow');
+  row.innerHTML = '';
+  SERVICES.forEach(s=>{
+    const b = document.createElement('button');
+    b.className = 'svc' + (s===selSvc?' active':'');
+    b.textContent = s;
+    b.onclick = (e)=>{ e.preventDefault(); selSvc=s; renderSvc(); };
+    row.appendChild(b);
+  });
+}
+function renderMine(){
+  let mine = [];
+  try{ mine = JSON.parse(localStorage.getItem(MY_KEY)) || []; }catch(e){}
+  const todayStr = fmt(new Date());
+  mine = mine.filter(b=>b.date>=todayStr);
+  localStorage.setItem(MY_KEY, JSON.stringify(mine));
+  const card = document.getElementById('mineCard');
+  if(!mine.length){ card.style.display='none'; return; }
+  card.style.display='block';
+  document.getElementById('mineList').innerHTML = mine
+    .sort((a,b)=>(a.date+a.time).localeCompare(b.date+b.time))
+    .map(b=>{
+      const still = (allSlots[b.date]||{})[timeKey(b.time)] === b.id;
+      return '<div class="bk'+(still?'':' cancelled')+'"><span class="t">'+b.date.slice(5).replace('-','/')+' '+b.time+'</span>'
+        + esc(b.name) + '<span class="s">'+esc(b.service)+(still?'':'｜已取消')+'</span></div>';
+    }).join('');
+}
+
+/* ===== Submit ===== */
+async function submitBooking(){
+  const name = document.getElementById('fName').value.trim();
+  const phone = document.getElementById('fPhone').value.trim();
+  const note = document.getElementById('fNote').value.trim();
+  if(!name){ toast('請填寫姓名'); return; }
+  if(!/^[\d+\-\s]{7,}$/.test(phone)){ toast('請填寫正確電話'); return; }
+  const btn = document.getElementById('btnSubmit');
+  btn.disabled = true; btn.textContent = '送出中⋯';
+  const id = 'b' + Date.now() + Math.random().toString(16).slice(2,8);
+  try{
+    // 1) 先搶時段(僅限空檔可建立,已被預約會被規則擋下)
+    const claim = await fetch(DB + '/booking/slots/' + selDate + '/' + timeKey(selTime) + '.json', {
+      method:'PUT', headers:{'Content-Type':'application/json'}, body: JSON.stringify(id)
+    });
+    if(!claim.ok){
+      toast('這個時段剛被預約了,請改選其他時段');
+      await loadAll(); selTime=null; renderCal(); renderSlots();
+      btn.disabled=false; btn.textContent='確 認 預 約';
+      return;
+    }
+    // 2) 再寫入預約明細(姓名電話,只有店家讀得到)
+    const booking = { date:selDate, time:selTime, name, phone, service:selSvc, note, createdAt: Date.now() };
+    const reqRes = await fetch(DB + '/booking/requests/' + id + '.json', {
+      method:'PUT', headers:{'Content-Type':'application/json'}, body: JSON.stringify(booking)
+    });
+    if(!reqRes.ok) throw new Error('detail');
+    // 記到本機「我的預約」
+    let mine = [];
+    try{ mine = JSON.parse(localStorage.getItem(MY_KEY)) || []; }catch(e){}
+    mine.push({ id, date:selDate, time:selTime, name, service:selSvc });
+    localStorage.setItem(MY_KEY, JSON.stringify(mine));
+    if(!allSlots[selDate]) allSlots[selDate] = {};
+    allSlots[selDate][timeKey(selTime)] = id;
+    showSuccess(booking);
+  }catch(e){
+    // 還原已搶到的時段
+    try{ await fetch(DB + '/booking/slots/' + selDate + '/' + timeKey(selTime) + '.json', {method:'DELETE'}); }catch(_){}
+    toast('連線失敗,請稍後再試');
+    btn.disabled=false; btn.textContent='確 認 預 約';
+  }
+}
+function showSuccess(b){
+  const [y,m,d] = b.date.split('-');
+  document.getElementById('app').innerHTML =
+    '<div class="card success">' +
+      '<div class="big">🎀</div>' +
+      '<h2>預約成功!</h2>' +
+      '<div class="detail">' +
+        '<b>日期:</b>'+y+' 年 '+Number(m)+' 月 '+Number(d)+' 日<br>' +
+        '<b>時間:</b>'+b.time+'<br>' +
+        '<b>姓名:</b>'+esc(b.name)+'<br>' +
+        '<b>服務:</b>'+esc(b.service)+
+        (b.note?('<br><b>備註:</b>'+esc(b.note)):'') +
+      '</div>' +
+      '<div class="hint">期待見到您 ☁️ 如需更改請聯絡店家</div>' +
+      '<br><button class="link-btn" onclick="init()">← 回到預約頁</button>' +
+    '</div>';
+}
+
+/* ===== init ===== */
+async function init(){
+  selDate=null; selTime=null;
+  document.getElementById('app').innerHTML = '<div class="loading">載入可預約時段中⋯ ☁️</div>';
+  try{
+    await loadAll();
+    render();
+  }catch(e){
+    document.getElementById('app').innerHTML =
+      '<div class="card"><div class="empty-msg">連線失敗,請檢查網路後重新整理 ☁️</div>' +
+      '<button class="btn-main" onclick="init()">重新載入</button></div>';
+  }
+}
+init();
+</script>
+</body>
+</html>
