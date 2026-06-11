@@ -130,6 +130,21 @@
   .loading{text-align:center;padding:40px 0;color:var(--cocoa);font-size:14px;letter-spacing:2px;}
   .hint{font-size:11px;color:#9FB6C8;margin-top:8px;text-align:center;line-height:1.7;}
 
+  .info-card{text-align:center;}
+  .info-title{font-size:15px;font-weight:700;letter-spacing:1px;margin-bottom:12px;}
+  .map-btn{
+    display:block;text-decoration:none;
+    background:linear-gradient(135deg,var(--pink-deep),var(--pink));
+    color:var(--cocoa-deep);font-size:15px;font-weight:700;letter-spacing:2px;
+    padding:13px 0;border-radius:14px;box-shadow:0 4px 10px rgba(168,203,229,.5);
+  }
+  .info-addr{font-size:13px;color:var(--cocoa);margin-top:10px;letter-spacing:1px;}
+  .info-notes{text-align:left;margin-top:16px;padding-top:14px;border-top:1px solid var(--beige-deep);}
+  .info-notes .ttl{font-weight:700;font-size:14px;margin-bottom:8px;letter-spacing:1px;}
+  .info-notes ul{list-style:none;}
+  .info-notes li{font-size:13px;color:var(--cocoa-deep);line-height:1.7;margin-bottom:6px;padding-left:18px;position:relative;}
+  .info-notes li:before{content:'·';position:absolute;left:6px;color:var(--pink-deep);font-weight:700;}
+
   #toast{
     position:fixed;left:50%;bottom:30px;
     transform:translateX(-50%) translateY(20px);
@@ -145,13 +160,18 @@
 <div class="wrap">
 
   <header>
-    <div class="cloud">☁️</div>
     <h1>日·勻 𝘙𝘢𝘺𝘶𝘯𝘦☁︎</h1>
     <p>NAIL ART · 線上預約</p>
   </header>
 
   <div id="app">
     <div class="loading">載入可預約時段中⋯ ☁️</div>
+  </div>
+
+  <div class="card info-card">
+    <div class="info-title">📍 店家資訊</div>
+    <a class="map-btn" href="https://maps.app.goo.gl/WxJhVSqHaY9qsujYA" target="_blank" rel="noopener">開啟地圖 / 導航 ›</a>
+    <div class="info-addr">臺中市西屯區</div>
   </div>
 
 </div>
