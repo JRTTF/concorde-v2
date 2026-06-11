@@ -1106,9 +1106,13 @@ async function claimOwnership(){
   }
 }
 async function doLogin(){
-  const email = (document.getElementById('bkEmail').value || '').trim();
-  const pw = document.getElementById('bkPw').value || '';
-  if(!email){ toast('請輸入 Email'); return; }
+  const acct = (document.getElementById('bkEmail').value || '').trim();
+  const pin = document.getElementById('bkPw').value || '';
+  if(!acct){ toast('請輸入帳號'); return; }
+  if(!pin){ toast('請輸入密碼'); return; }
+  // 帳號自動補成 Email 格式、密碼自動補足長度(店家無感)
+  const email = acct.indexOf('@') >= 0 ? acct : acct.toLowerCase() + '@cloud-nail.local';
+  const pw = pin + '-yndnail';
   const btn = document.getElementById('bkLoginBtn');
   btn.disabled = true; btn.textContent = '登入中⋯';
   try{
@@ -1161,9 +1165,9 @@ function renderLogin(msg){
   document.getElementById('bookApp').innerHTML =
     '<div class="card">' +
       '<div class="form-title">🔒 店家登入</div>' +
-      '<div class="hint" style="text-align:left;margin:0 0 12px;line-height:1.8">第一次使用:輸入您的 Email 和自訂密碼(至少 6 碼),系統會自動建立店家帳號,並把這個帳號設為唯一管理者。之後用同一組登入即可。<br>※ 客人預約不需要登入。請盡快完成第一次登入以鎖定管理權。</div>' +
-      '<input class="bk-input" id="bkEmail" type="email" placeholder="Email" autocomplete="username">' +
-      '<input class="bk-input" id="bkPw" type="password" placeholder="密碼(至少 6 碼)" autocomplete="current-password">' +
+      '<div class="hint" style="text-align:left;margin:0 0 12px;line-height:1.8">第一次使用:輸入帳號和密碼按登入,系統會自動建立店家帳號並設為唯一管理者。<br>登入一次後這支手機就會記住,以後打開直接進管理畫面,不用再登入。<br>※ 客人預約不需要登入。</div>' +
+      '<input class="bk-input" id="bkEmail" type="text" placeholder="帳號" value="yunt" autocomplete="username">' +
+      '<input class="bk-input" id="bkPw" type="password" inputmode="numeric" placeholder="密碼" autocomplete="current-password">' +
       (msg ? '<div style="color:var(--red);font-size:12px;margin:2px 0 8px">'+esc(msg)+'</div>' : '') +
       '<button class="bk-day-closed" id="bkLoginBtn" style="background:linear-gradient(135deg,var(--pink-deep),var(--pink));border:none;color:var(--cocoa-deep);font-weight:800;letter-spacing:2px">登入 / 第一次設定</button>' +
     '</div>';
