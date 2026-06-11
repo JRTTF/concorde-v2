@@ -248,7 +248,7 @@
         <li>不接版權造型（任何 ip 角色）</li>
         <li>指甲需保留一定長度（建議超過指肉 2–3mm）,不接病甲!!（灰指甲、凍甲等)</li>
         <li>需配合施作後的手部拍攝,過程中不可趕時間,儘量預留足夠時間,後續行程不要排太近</li>
-        <li>預約收取定金 $100,可折抵費用；取消預約需提前 3 日告知,逾時不退。請勿無故取消,尊重彼此的時間,謝謝</li>
+        <li>首次預約須收取定金 $100(可折抵費用),老顧客回訪不需再付定金；取消或改約請提前 3 日告知,逾時恕不退還定金。請勿無故取消,尊重彼此的時間,謝謝</li>
       </ul>
       <div class="notes-foot">（2026.06.01 更）</div>
     </div>
@@ -288,7 +288,7 @@
       <a class="link-btn ig" href="https://www.instagram.com/rayune_studio" target="_blank" rel="noopener">Instagram</a>
       <a class="link-btn line" href="https://lin.ee/YKoIP5R" target="_blank" rel="noopener">官方 LINE</a>
     </div>
-    <div class="deposit-hint">💰 付定金:請點上方「官方 LINE」加入好友,直接在 LINE 上付款定金 $100(可折抵費用)。完成付款才算正式預約成功 🤍</div>
+    <div class="deposit-hint">💰 首次預約付定金:請點上方「官方 LINE」加入好友,在 LINE 上付款定金 $100(可折抵費用),完成付款才算正式預約成功。老顧客回訪不需再付定金 🤍</div>
   </div>
 
 </div>
@@ -298,7 +298,7 @@
   <div class="modal-box">
     <div class="modal-emoji">📋</div>
     <div class="modal-title">預約前確認</div>
-    <div class="modal-text">您是否已詳閱「手模注意事項」?<br>(含定金 $100、取消規則、需保留指甲長度等)</div>
+    <div class="modal-text">您是否已詳閱「手模注意事項」?<br>(含首次預約定金 $100、取消規則、需保留指甲長度等)</div>
     <button class="modal-yes" onclick="confirmNotice()">我已詳閱,確認預約</button>
     <button class="modal-no" onclick="gotoNotes()">先去看注意事項</button>
   </div>
@@ -640,8 +640,8 @@ function showSuccess(b){
         '<b>預估金額:</b>'+esc(b.est||'')+
         (b.note?('<br><b>備註:</b>'+esc(b.note)):'') +
       '</div>' +
-      '<div class="hint" style="color:var(--expense-deep);font-weight:700">⚠️ 預約尚未完成!請加官方 LINE,在 LINE 上支付定金 $100(可折抵),完成付款才算正式預約成功</div>' +
-      '<a class="link-btn line" style="display:block;margin-top:12px;padding:14px 0;font-size:15px" href="'+LINE_URL+'" target="_blank" rel="noopener">前往官方 LINE 付定金 $100 ›</a>' +
+      '<div class="hint" style="color:var(--expense-deep);font-weight:700">⚠️ 首次預約請加官方 LINE,在 LINE 上支付定金 $100(可折抵),完成付款才算正式預約成功;老顧客回訪不需再付定金</div>' +
+      '<a class="link-btn line" style="display:block;margin-top:12px;padding:14px 0;font-size:15px" href="'+LINE_URL+'" target="_blank" rel="noopener">前往官方 LINE(首次預約付定金)›</a>' +
       '<div style="margin-top:12px"><button onclick="init()" style="border:none;background:transparent;color:var(--cocoa);font-size:13px;text-decoration:underline;cursor:pointer;letter-spacing:1px">← 回到預約頁</button></div>' +
     '</div>';
 }
