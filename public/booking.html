@@ -68,6 +68,9 @@
     padding:13px 4px;font-size:14px;font-weight:700;
     cursor:pointer;transition:.2s;text-align:center;
   }
+  .slot.late{border-color:var(--expense);}
+  .slot small{display:block;font-size:9px;font-weight:400;color:var(--expense-deep);margin-top:2px;}
+  .slot.active small{color:#fff;}
   .slot.active{
     background:var(--cocoa);border-color:var(--cocoa);color:#fff;
     box-shadow:0 3px 8px rgba(63,97,126,.25);
@@ -307,7 +310,9 @@
 
 <script>
 const DB = 'https://cloud-nail-booking-default-rtdb.asia-southeast1.firebasedatabase.app';
-const FALLBACK_SLOTS = ['11:00','13:00','15:00','17:00'];
+const FALLBACK_SLOTS = ['10:00','10:30','11:00','11:30','12:00','12:30','13:00','13:30','14:00','14:30','15:00','15:30','16:00','16:30','17:00','17:30','18:00','18:30'];
+const LATE_SLOTS = ['19:00','19:30','20:00'];
+const LATE_FEE = 200;
 const SERVICES = [
   {name:'單色', price:350, jump:true},
   {name:'貓眼', price:400, jump:true},
@@ -482,13 +487,14 @@ function renderSlots(){
   grid.innerHTML = '';
   (freeSlots(selDate)||[]).forEach(t=>{
     const b = document.createElement('button');
-    b.className = 'slot' + (t===selTime?' active':'');
-    b.textContent = t;
+    const late = LATE_SLOTS.includes(t);
+    b.className = 'slot' + (t===selTime?' active':'') + (late?' late':'');
+    b.innerHTML = t + (late?'<small>深夜+$'+LATE_FEE+'</small>':'');
     b.onclick = ()=>{ selTime=t; renderSlots(); };
     grid.appendChild(b);
   });
   form.style.display = selTime ? 'block' : 'none';
-  if(selTime) setTimeout(()=>form.scrollIntoView({behavior:'smooth', block:'center'}), 80);
+  if(selTime){ renderEst(); setTimeout(()=>form.scrollIntoView({behavior:'smooth', block:'center'}), 80); }
 }
 function svcObj(){ return SERVICES.find(s=>s.name===selSvc) || SERVICES[0]; }
 function renderSvc(){
@@ -530,6 +536,7 @@ function addonTotal(){
   if(selJump && s.jump) add += 50;
   if(selRemove==='self') add += 100;
   if(selRemove==='other') add += 150;
+  if(LATE_SLOTS.includes(selTime)) add += LATE_FEE;
   return add;
 }
 function estimateText(){
@@ -547,6 +554,7 @@ function svcSummary(){
   if(selJump && svcObj().jump) parts.push('跳色');
   if(selRemove==='self') parts.push('本店卸甲');
   if(selRemove==='other') parts.push('他店卸甲');
+  if(LATE_SLOTS.includes(selTime)) parts.push('深夜+'+LATE_FEE);
   return parts.join('・');
 }
 function renderMine(){
