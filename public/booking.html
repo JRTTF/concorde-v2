@@ -108,6 +108,14 @@
   .addon small{font-size:10px;font-weight:400;color:var(--cocoa);margin-left:3px;}
   .addon.active{background:var(--pink);border-color:var(--pink-deep);}
   .addon.active small{color:var(--cocoa-deep);}
+  .ext-row{display:flex;align-items:center;gap:10px;}
+  .ext-btn{
+    width:38px;height:38px;flex-shrink:0;border:1.5px solid var(--beige-deep);
+    background:var(--cream);border-radius:12px;font-size:20px;font-weight:700;
+    color:var(--cocoa-deep);cursor:pointer;line-height:1;
+  }
+  .ext-num{font-size:15px;font-weight:700;color:var(--cocoa-deep);min-width:44px;text-align:center;}
+  .ext-fee{font-size:12px;color:var(--cocoa);margin-left:auto;}
   .est-box{
     background:var(--cream);border-radius:12px;padding:11px 12px;
     text-align:center;font-size:14px;font-weight:700;color:var(--cocoa-deep);
@@ -330,7 +338,7 @@ const OPEN_NEXT_DAY = 20;   // 每月此日起開放「次月」預約
 let cfg = { defaultSlots: FALLBACK_SLOTS, overrides: {} };
 let allSlots = {};        // {date: {timeKey: reqId}}
 let calY, calM;
-let selDate = null, selTime = null, selSvc = SERVICES[0].name, selJump = false, selRemove = 'none';
+let selDate = null, selTime = null, selSvc = SERVICES[0].name, selJump = false, selRemove = 'none', selExtend = 0;
 
 const today = new Date(); today.setHours(0,0,0,0);
 // 預約開放範圍:本月;每月 OPEN_NEXT_DAY 號起加開「次月」(其餘月份不開放)
@@ -418,6 +426,7 @@ function render(){
       '<div class="fld"><label>LINE 名稱 *</label><input id="fLine" type="text" placeholder="付定金時方便對帳"></div>' +
       '<div class="fld"><label>服務項目</label><div class="svc-row" id="svcRow"></div></div>' +
       '<div class="fld"><label>加購</label><div class="addon-row" id="addonRow"></div></div>' +
+      '<div class="fld"><label>延甲(每只 $45,可選 0~10 只)</label><div class="ext-row" id="extRow"></div></div>' +
       '<div class="est-box">預估金額 <span id="estVal">$0</span><small>實際金額以現場施作為準</small></div>' +
       '<div class="fld"><label>備註(可不填)</label><textarea id="fNote" rows="2" placeholder="想做的款式、自帶圖、特殊需求等"></textarea></div>' +
       '<button class="btn-main" id="btnSubmit">確 認 預 約</button>' +
@@ -511,7 +520,21 @@ function renderSvc(){
     row.appendChild(b);
   });
   renderAddons();
+  renderExt();
   renderEst();
+}
+function renderExt(){
+  const row = document.getElementById('extRow');
+  if(!row) return;
+  row.innerHTML =
+    '<button class="ext-btn" onclick="changeExt(-1)">−</button>' +
+    '<span class="ext-num">'+selExtend+' 只</span>' +
+    '<button class="ext-btn" onclick="changeExt(1)">＋</button>' +
+    '<span class="ext-fee">'+(selExtend? '+$'+(selExtend*45) : '不延甲')+'</span>';
+}
+function changeExt(d){
+  selExtend = Math.max(0, Math.min(10, selExtend + d));
+  renderExt(); renderEst();
 }
 function renderAddons(){
   const row = document.getElementById('addonRow');
@@ -540,6 +563,7 @@ function addonTotal(){
   if(selRemove==='self') add += 100;
   if(selRemove==='other') add += 150;
   if(LATE_SLOTS.includes(selTime)) add += LATE_FEE;
+  add += selExtend * 45;
   return add;
 }
 function estimateText(){
@@ -557,6 +581,7 @@ function svcSummary(){
   if(selJump && svcObj().jump) parts.push('跳色');
   if(selRemove==='self') parts.push('本店卸甲');
   if(selRemove==='other') parts.push('他店卸甲');
+  if(selExtend>0) parts.push('延甲'+selExtend+'只');
   if(LATE_SLOTS.includes(selTime)) parts.push('深夜+'+LATE_FEE);
   return parts.join('・');
 }
