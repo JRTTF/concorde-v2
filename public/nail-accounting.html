@@ -1462,64 +1462,53 @@ function renderBkDay(){
   SLOT_UNIVERSE.forEach(t=>{
     const b = document.createElement('button');
     const isBooked = bookedT.includes(t);
-    const isBlocked = daySlots[timeKey(t)] === 'BLOCKED';
-    const isOffered = !closed && slots.includes(t);
-    b.className = 'bk-slot' + (isBooked?' booked':(isBlocked?' full':(isOffered?' open':'')));
+    const isOpen = !closed && slots.includes(t);
+    b.className = 'bk-slot' + (isBooked?' booked':(isOpen?' open':' full'));
     b.textContent = t;
-    b.onclick = ()=>toggleSlot(t, isBooked, isBlocked, isOffered, closed);
+    b.onclick = ()=>toggleSlot(t, isBooked, isOpen, closed);
     grid.appendChild(b);
   });
   const cb = document.getElementById('bkClosedBtn');
   cb.textContent = closed ? '🌙 本日店休中(點擊恢復)' : '設為整日店休';
   cb.className = 'bk-day-closed' + (closed?' closed':'');
-  // 整日已滿按鈕
   const fb = document.getElementById('bkFullBtn');
   if(fb){
-    const free = closed ? [] : slots.filter(t=>!bookedT.includes(t));
-    const allBlocked = free.length>0 && free.every(t=>daySlots[timeKey(t)]==='BLOCKED');
-    fb.textContent = allBlocked ? '取消整日已滿' : '設整日已滿';
-    fb.className = 'bk-day-closed' + (allBlocked?' closed':'');
+    const freeOffered = closed ? [] : slots.filter(t=>!bookedT.includes(t));
+    const noneFree = !closed && freeOffered.length===0;
+    fb.textContent = noneFree ? '恢復預設時段' : '設整日已滿';
+    fb.className = 'bk-day-closed' + (noneFree?' closed':'');
   }
 }
-async function toggleSlot(t, isBooked, isBlocked, isOffered, closed){
+async function toggleSlot(t, isBooked, isOpen, closed){
   if(isBooked){ toast('客人已預約,請從上方取消該筆預約'); return; }
-  if(closed){ toast('本日店休,請先恢復營業'); return; }
-  if(!isOffered && !isBlocked){ toast('此時段未開放,可至下方「預設每日時段」調整'); return; }
-  const key = timeKey(t);
+  if(closed){ toast('本日店休,請先點「恢復營業」'); return; }
+  const cur = (bkSlotsFor(bkSel) || []).slice();
+  const next = (isOpen ? cur.filter(x=>x!==t) : cur.concat([t])).sort();
   try{
-    if(isBlocked){
-      await dbDelete('/booking/slots/' + bkSel + '/' + key, true);
-      if(bkSlots[bkSel]) delete bkSlots[bkSel][key];
-      toast('已取消「已滿」');
-    }else{
-      await dbPut('/booking/slots/' + bkSel + '/' + key, 'BLOCKED', true);
-      bkSlots[bkSel] = bkSlots[bkSel] || {};
-      bkSlots[bkSel][key] = 'BLOCKED';
-      toast('已設為已滿');
-    }
+    await dbPut('/booking/config/overrides/' + bkSel, {slots: next}, true);
+    bkCfg.overrides = bkCfg.overrides || {};
+    bkCfg.overrides[bkSel] = {slots: next};
+    toast(isOpen ? '已設為已滿' : '已開放此時段');
     renderBkDay();
   }catch(e){ toast('儲存失敗,請重試'); }
 }
 async function blockAllDay(){
-  const slots = bkSlotsFor(bkSel);
-  if(!slots){ toast('本日店休中,請先恢復營業'); return; }
+  if(bkSlotsFor(bkSel)===null){ toast('本日店休中,請先恢復營業'); return; }
+  const cur = bkSlotsFor(bkSel) || [];
   const bookedT = bkBookingsOf(bkSel).map(([id,b])=>b.time);
-  const free = slots.filter(t=>!bookedT.includes(t));
-  if(!free.length){ toast('本日沒有可調整的時段'); return; }
-  bkSlots[bkSel] = bkSlots[bkSel] || {};
-  const allBlocked = free.every(t=>bkSlots[bkSel][timeKey(t)]==='BLOCKED');
+  const freeOffered = cur.filter(t=>!bookedT.includes(t));
   try{
-    for(const t of free){
-      const key = timeKey(t);
-      if(allBlocked){
-        await dbDelete('/booking/slots/' + bkSel + '/' + key, true);
-        delete bkSlots[bkSel][key];
-      }else if(bkSlots[bkSel][key] !== 'BLOCKED'){
-        await dbPut('/booking/slots/' + bkSel + '/' + key, 'BLOCKED', true);
-        bkSlots[bkSel][key] = 'BLOCKED';
-      }
+    if(freeOffered.length === 0){
+      await dbDelete('/booking/config/overrides/' + bkSel, true);
+      if(bkCfg.overrides) delete bkCfg.overrides[bkSel];
+      toast('已恢復預設時段(全部開放)');
+    }else{
+      const keep = bookedT.slice().sort();
+      await dbPut('/booking/config/overrides/' + bkSel, {slots: keep}, true);
+      bkCfg.overrides = bkCfg.overrides || {};
+      bkCfg.overrides[bkSel] = {slots: keep};
+      toast('本日已設為額滿');
     }
-    toast(allBlocked ? '已取消整日已滿' : '本日已設為額滿');
     renderBkDay();
   }catch(e){ toast('儲存失敗,請重試'); }
 }
